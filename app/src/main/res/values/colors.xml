@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="micro">#bfccff</color>
+    <color name="minor">#99f</color>
+    <color name="light">#8ff</color>
+    <color name="moderate">#ff0</color>
+    <color name="strong">#ff9100</color>
+    <color name="major">#d00</color>
+    <color name="great">#d00</color>
+</resources>

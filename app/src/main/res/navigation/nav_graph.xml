@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home">
+    <fragment
+        android:id="@+id/home"
+        android:name="net.chinzer.seismicincidenttracker.SeismicList"
+        android:label="SeismicList" />
+    <fragment
+        android:id="@+id/map"
+        android:name="net.chinzer.seismicincidenttracker.SeismicMap"
+        android:label="seismic_map"
+        tools:layout="@layout/seismic_map" />
+    <fragment
+        android:id="@+id/search"
+        android:name="net.chinzer.seismicincidenttracker.SeismicSearch"
+        android:label="seismic_search"
+        tools:layout="@layout/seismic_search" />
+</navigation>
