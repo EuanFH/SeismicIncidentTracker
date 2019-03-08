@@ -24,10 +24,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         seismicIncidentViewModel = ViewModelProviders.of(this).get(SeismicIncidentViewModel.class);
         setContentView(R.layout.activity_main);
-        //navigationBar = findViewById(R.id.bottomNavigationView);
         navigationController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navigationView = findViewById(R.id.bottomNavigationView);
-        //NavigationUI.setupActionBarWithNavController(this, );
         NavigationUI.setupWithNavController(navigationView, navigationController);
     }
 

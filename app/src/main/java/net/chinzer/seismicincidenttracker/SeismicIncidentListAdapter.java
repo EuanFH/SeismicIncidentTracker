@@ -11,7 +11,11 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicIncidentListAdapter.SeismicIncidentViewHolder> {
+public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicIncidentListAdapter.SeismicIncidentViewHolder>{
+
+    private final LayoutInflater inflater;
+    private List<SeismicIncident> seismicIncidents; // Cached copy of word
+    private OnItemClickListener listener;
 
     class SeismicIncidentViewHolder extends RecyclerView.ViewHolder {
         private final TextView locality;
@@ -28,11 +32,17 @@ public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicInci
             time = itemView.findViewById(R.id.time);
             magnitude = itemView.findViewById(R.id.magnitude);
             severity = itemView.findViewById(R.id.severity);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    if(listener != null && getAdapterPosition() != RecyclerView.NO_POSITION){
+                        listener.onItemClick(seismicIncidents.get(getAdapterPosition()));
+                    }
+                }
+            });
         }
     }
-
-    private final LayoutInflater inflater;
-    private List<SeismicIncident> seismicIncidents; // Cached copy of words
 
     SeismicIncidentListAdapter(Context context) { inflater = LayoutInflater.from(context); }
 
@@ -78,7 +88,6 @@ public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicInci
                     break;
             }
 
-
         } else {
             // Covers the case of data not being ready yet
         }
@@ -98,5 +107,13 @@ public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicInci
         if (seismicIncidents != null)
             return seismicIncidents.size();
         else return 0;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(SeismicIncident seismicIncident);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
     }
 }

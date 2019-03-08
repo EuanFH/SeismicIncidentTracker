@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -22,16 +23,19 @@ public class SeismicList extends Fragment implements SwipeRefreshLayout.OnRefres
     private RecyclerView recyclerView;
     private SeismicIncidentViewModel seismicIncidentViewModel;
 
+    //this might be bad idn
+    private View view;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.seismic_list, container, false);
+        view = inflater.inflate(R.layout.seismic_list, container, false);
         // Inflate the layout for this fragment
-        refreshButton = v.findViewById(R.id.swiperefresh);
+        refreshButton = view.findViewById(R.id.swiperefresh);
         refreshButton.setOnRefreshListener(this);
-        recyclerView = v.findViewById(R.id.recyclerview);
-        return v;
+        recyclerView = view.findViewById(R.id.recyclerview);
+        return view;
     }
 
     @Override
@@ -48,6 +52,14 @@ public class SeismicList extends Fragment implements SwipeRefreshLayout.OnRefres
             public void onChanged(@Nullable final List<SeismicIncident> seismicIncidents) {
                 // Update the cached copy of the words in the adapter.
                 adapter.setSeismicIncidents(seismicIncidents);
+                adapter.setOnItemClickListener(new SeismicIncidentListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(SeismicIncident seismicIncident) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("seismicIncident", seismicIncident);
+                        Navigation.findNavController(view).navigate(R.id.action_home_to_seismicItem, bundle);
+                    }
+                });
             }
         });
     }

@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/home"
         android:name="net.chinzer.seismicincidenttracker.SeismicList"
-        android:label="SeismicList" />
+        android:label="SeismicList" >
+        <action
+            android:id="@+id/action_home_to_seismicItem"
+            app:destination="@id/seismicItem" />
+    </fragment>
     <fragment
         android:id="@+id/map"
         android:name="net.chinzer.seismicincidenttracker.SeismicMap"
@@ -18,4 +22,13 @@
         android:name="net.chinzer.seismicincidenttracker.SeismicSearch"
         android:label="seismic_search"
         tools:layout="@layout/seismic_search" />
+    <fragment
+        android:id="@+id/seismicItem"
+        android:name="net.chinzer.seismicincidenttracker.SeismicItem"
+        android:label="seismic_item"
+        tools:layout="@layout/seismic_item" >
+        <argument
+            android:name="seismicIncident"
+            app:argType="net.chinzer.seismicincidenttracker.SeismicIncident" />
+    </fragment>
 </navigation>

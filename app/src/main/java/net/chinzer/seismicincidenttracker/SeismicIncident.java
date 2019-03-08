@@ -1,5 +1,8 @@
 package net.chinzer.seismicincidenttracker;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -9,7 +12,7 @@ import java.time.OffsetDateTime;
 
 @Entity(tableName = "seismic_incidents", primaryKeys = {"dateTime", "latitude", "longitude"})
 @TypeConverters({DateTypeConverters.class})
-public class SeismicIncident {
+public class SeismicIncident implements Parcelable {
     @NonNull
     private OffsetDateTime dateTime;
     private int depth;
@@ -129,4 +132,43 @@ public class SeismicIncident {
         }
         return severity;
     }
+
+    //parcel magic
+    protected SeismicIncident(Parcel in) {
+        dateTime = DateTypeConverters.fromDateTimetoOffset(in.readString());
+        depth = in.readInt();
+        magnitude = in.readDouble();
+        severity = in.readString();
+        locality = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(DateTypeConverters.fromOffsettoDatetime(dateTime));
+        dest.writeInt(depth);
+        dest.writeDouble(magnitude);
+        dest.writeString(severity);
+        dest.writeString(locality);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<SeismicIncident> CREATOR = new Creator<SeismicIncident>() {
+        @Override
+        public SeismicIncident createFromParcel(Parcel in) {
+            return new SeismicIncident(in);
+        }
+
+        @Override
+        public SeismicIncident[] newArray(int size) {
+            return new SeismicIncident[size];
+        }
+    };
 }
