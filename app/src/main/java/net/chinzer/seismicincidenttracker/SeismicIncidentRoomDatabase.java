@@ -4,8 +4,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -51,7 +54,18 @@ public abstract class SeismicIncidentRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
             dao.deleteAll();
-            dao.insert(new SeismicIncident(OffsetDateTime.now(), 4, 9.5, "Glasgow", 55.0, -2.0));
+            dao.insert(new SeismicIncident(OffsetDateTime.now(), 4, 9.5, "Glasgow", 55.0, -2.0, "https://chinzer.net"));
+            dao.insert(new SeismicIncident(OffsetDateTime.of(2019, 3, 9, 0,0,0,0, ZoneOffset.UTC), 4, 9.5, "0", 55.0, -2.0, "https://chinzer.net"));
+            dao.insert(new SeismicIncident(OffsetDateTime.of(2019, 3, 1, 0,0,0,0, ZoneOffset.UTC), 4, 9.5, "1", 55.0, -2.0, "https://chinzer.net"));
+            dao.insert(new SeismicIncident(OffsetDateTime.of(2019, 2, 1, 1,1,0,0, ZoneOffset.UTC), 4, 9.5, "2", 55.0, -2.0, "https://chinzer.net"));
+            dao.insert(new SeismicIncident(OffsetDateTime.of(2019, 2, 1, 2,5,0,0, ZoneOffset.UTC), 4, 9.5, "5", 55.0, -2.0, "https://chinzer.net"));
+            dao.insert(new SeismicIncident(OffsetDateTime.of(2019, 2, 4, 5,4,0,0, ZoneOffset.UTC), 4, 9.5, "3", 55.0, -2.0, "https://chinzer.net"));
+            dao.insert(new SeismicIncident(OffsetDateTime.of(2019, 4, 9, 0,0,0,0, ZoneOffset.UTC), 4, 9.5, "4", 55.0, -2.0, "https://chinzer.net"));
+
+            List<SeismicIncident> test = dao.getDateSpecificSeismicIncidents(OffsetDateTime.of(2019, 3, 9, 0,0,0,0, ZoneOffset.UTC));
+            List<SeismicIncident> test2 = dao.getDateRangeSpecificSeismicIncidents(OffsetDateTime.of(2019, 2, 1, 0,0,0,0, ZoneOffset.UTC), OffsetDateTime.of(2019, 2, 5, 0,0,0,0, ZoneOffset.UTC));
+            List<SeismicIncident> test3 = dao.getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime.of(2019, 2, 1, 1,0,0,0, ZoneOffset.UTC), OffsetDateTime.of(2019, 2, 1, 4,0,0,0, ZoneOffset.UTC));
+
             return null;
         }
     }

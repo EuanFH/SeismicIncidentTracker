@@ -5,20 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/informationContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="1" />
-
     <TextView
         android:id="@+id/locality"
         android:layout_width="242dp"
@@ -34,23 +20,24 @@
 
     <TextView
         android:id="@+id/magnitude"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center_horizontal|center_vertical"
         android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/depth"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/locality"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.067"
-        tools:text="2.5 km" />
+        tools:text="2.5" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:drawableLeft="@drawable/ic_date_range_black_24dp"
+        android:drawableStart="@drawable/ic_date_range_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locality"
         tools:text="example date" />
@@ -60,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:drawableLeft="@drawable/ic_access_time_black_24dp"
+        android:drawableStart="@drawable/ic_access_time_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date"
         tools:text="example time" />
@@ -70,7 +57,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/magnitude"
         app:layout_constraintEnd_toEndOf="@+id/magnitude"
         app:layout_constraintStart_toStartOf="@+id/magnitude"
         app:layout_constraintTop_toTopOf="parent"
@@ -79,38 +65,52 @@
     <fragment
         android:id="@+id/map"
         class="net.chinzer.seismicincidenttracker.SeismicMap"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/informationContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/latitudeLongitude" />
 
     <TextView
         android:id="@+id/depth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:drawableStart="@drawable/ic_depth"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time"
         tools:text="depth" />
 
     <TextView
-        android:id="@+id/latitude"
+        android:id="@+id/latitudeLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/depth"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_maps_and_flags"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/depth"
-        tools:text="latitude" />
+        tools:text="Latitude, Longitude" />
 
     <TextView
-        android:id="@+id/longitude"
-        android:layout_width="wrap_content"
+        android:id="@+id/link"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/latitude"
-        app:layout_constraintTop_toBottomOf="@+id/latitude"
-        tools:text="Longitude" />
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:drawableStart="@drawable/ic_link_black_24dp"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/latitudeLongitude"
+        tools:text="http://earthquakes.bgs.ac.uk/earthquakes/recent_events/20190308023814.html" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

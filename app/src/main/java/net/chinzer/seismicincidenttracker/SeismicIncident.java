@@ -23,9 +23,10 @@ public class SeismicIncident implements Parcelable {
     private double latitude;
     @NonNull
     private double longitude;
+    private String link;
 
     @Ignore
-    public SeismicIncident(OffsetDateTime dateTime, int depth, double magnitude, String locality, double latitude, double longitude) {
+    public SeismicIncident(OffsetDateTime dateTime, int depth, double magnitude, String locality, double latitude, double longitude, String link) {
         this.dateTime = dateTime;
         this.depth = depth;
         this.magnitude = magnitude;
@@ -33,9 +34,10 @@ public class SeismicIncident implements Parcelable {
         this.locality = locality;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.link = link;
     }
 
-    public SeismicIncident(OffsetDateTime dateTime, int depth, double magnitude, String severity, String locality, double latitude, double longitude) {
+    public SeismicIncident(OffsetDateTime dateTime, int depth, double magnitude, String severity, String locality, double latitude, double longitude, String link) {
         this.dateTime = dateTime;
         this.depth = depth;
         this.magnitude = magnitude;
@@ -43,6 +45,7 @@ public class SeismicIncident implements Parcelable {
         this.locality = locality;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.link = link;
     }
 
     public OffsetDateTime getDateTime() {
@@ -101,6 +104,14 @@ public class SeismicIncident implements Parcelable {
         this.longitude = longitude;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     private String calculateSeverity(double magnitude){
         String severity = "";
         if (magnitude <= 1.9){
@@ -142,6 +153,7 @@ public class SeismicIncident implements Parcelable {
         locality = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
+        link = in.readString();
     }
 
     @Override
@@ -153,6 +165,7 @@ public class SeismicIncident implements Parcelable {
         dest.writeString(locality);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
+        dest.writeString(link);
     }
 
     @Override

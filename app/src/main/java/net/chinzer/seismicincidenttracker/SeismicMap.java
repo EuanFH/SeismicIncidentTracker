@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders;
 public class SeismicMap extends Fragment implements OnMapReadyCallback {
 
     private SeismicIncidentViewModel seismicIncidentViewModel;
+    private SeismicIncident seismicIncident;
 
     private GoogleMap map;
 
@@ -43,7 +44,12 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         seismicIncidentViewModel = ViewModelProviders.of(getActivity()).get(SeismicIncidentViewModel.class);
-
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            if(bundle.containsKey("seismicIncident")){
+                seismicIncident = bundle.getParcelable("seismicIncident");
+            }
+        }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         if(getActivity()!=null) {
             SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -61,6 +67,16 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
         LatLngBounds unitedkingdom = new LatLngBounds(new LatLng(48.0, -12.0), new LatLng(59.0, 4.0));
         map.setLatLngBoundsForCameraTarget(unitedkingdom);
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(unitedkingdom, 20));
+        if (seismicIncident == null){
+            multipleSeismicIncidentMap();
+
+        } else {
+            specificSeismicIncidentMap();
+        }
+
+    }
+
+    public void multipleSeismicIncidentMap(){
         seismicIncidentViewModel.getAllSeismicIncidents().observe(getViewLifecycleOwner(), new Observer<List<SeismicIncident>>() {
             @Override
             public void onChanged(@Nullable final List<SeismicIncident> seismicIncidents) {
@@ -72,5 +88,18 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
+    }
+
+    public void specificSeismicIncidentMap(){
+        LatLng latlng = new LatLng(seismicIncident.getLatitude(), seismicIncident.getLongitude());
+        map.addMarker(new MarkerOptions().position(latlng).title(seismicIncident.getLocality()));
+        moveToCurrentLocation(latlng);
+    }
+
+    private void moveToCurrentLocation(LatLng currentLocation)
+    {
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
+        map.animateCamera(CameraUpdateFactory.zoomIn());
+        map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
     }
 }

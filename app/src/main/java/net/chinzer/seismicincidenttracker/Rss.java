@@ -38,7 +38,9 @@ public class Rss {
         int eventType = xpp.getEventType();
         xpp.setInput(seismicIncidentsXML, null);
         boolean inItemTag = false;
+        boolean inLinkTag = false;
         boolean inDescriptionTag = false;
+        String descriptionToParse = "";
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if(eventType == XmlPullParser.START_TAG) {
                 if (xpp.getName().equalsIgnoreCase("item")){
@@ -47,18 +49,32 @@ public class Rss {
                 else if (xpp.getName().equalsIgnoreCase("description")){
                     inDescriptionTag = true;
                 }
+                else if (xpp.getName().equalsIgnoreCase("link")){
+                    inLinkTag = true;
+                }
             } else if(eventType == XmlPullParser.END_TAG) {
                 if (xpp.getName().equalsIgnoreCase("item")){
                     inItemTag = false;
                     inDescriptionTag = false;
+                    inLinkTag = false;
                 }
                 else if (xpp.getName().equalsIgnoreCase("description")) {
                     inDescriptionTag = false;
                 }
+                else if (xpp.getName().equalsIgnoreCase("link")){
+                    inLinkTag = false;
+                }
 
             } else if(eventType == XmlPullParser.TEXT) {
                 if(inDescriptionTag && inItemTag){
-                    seismicIncidents.add(parseDescription(xpp.getText()));
+                    descriptionToParse = xpp.getText();
+
+                }
+                else if(inLinkTag && inItemTag){
+                    if (descriptionToParse != ""){
+                        seismicIncidents.add(parseDescription(descriptionToParse, xpp.getText()));
+                        descriptionToParse = "";
+                    }
                 }
             }
             eventType = xpp.next();
@@ -66,7 +82,7 @@ public class Rss {
         return seismicIncidents;
     }
 
-    private static SeismicIncident parseDescription(String description){
+    private static SeismicIncident parseDescription(String description, String link){
         ArrayList<String> rawSeismicIncident = new ArrayList<>();
         String[] descriptionParts = description.split(";");
         for(String info : descriptionParts){
@@ -88,8 +104,7 @@ public class Rss {
         double longitude = Double.parseDouble(latLong[1]);
         int depth = Integer.parseInt(rawSeismicIncident.get(3).replaceAll("[^\\d.]", ""));
         double magnitude = Double.parseDouble(rawSeismicIncident.get(4));
-        return new SeismicIncident(dateTime, depth, magnitude, locality, latitude, longitude);
-
+        return new SeismicIncident(dateTime, depth, magnitude, locality, latitude, longitude, link);
     }
 
 }
