@@ -3,29 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/home">
+    app:startDestination="@id/seismic_incidents">
     <fragment
-        android:id="@+id/home"
+        android:id="@+id/seismic_incidents"
         android:name="net.chinzer.seismicincidenttracker.SeismicList"
-        android:label="SeismicList" >
+        android:label="Seismic Incidents" >
         <action
-            android:id="@+id/action_home_to_seismicItem"
+            android:id="@+id/action_seismic_incidents_to_seismicItem"
             app:destination="@id/seismicItem" />
     </fragment>
     <fragment
         android:id="@+id/map"
         android:name="net.chinzer.seismicincidenttracker.SeismicMap"
-        android:label="seismic_map"
+        android:label="Map"
         tools:layout="@layout/seismic_map" />
     <fragment
         android:id="@+id/search"
         android:name="net.chinzer.seismicincidenttracker.SeismicSearch"
-        android:label="seismic_search"
+        android:label="Search"
         tools:layout="@layout/seismic_search" />
     <fragment
         android:id="@+id/seismicItem"
         android:name="net.chinzer.seismicincidenttracker.SeismicItem"
-        android:label="seismic_item"
+        android:label="Item"
         tools:layout="@layout/seismic_item" >
         <argument
             android:name="seismicIncident"

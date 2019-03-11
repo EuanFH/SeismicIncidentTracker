@@ -29,6 +29,7 @@ dependencies {
     implementation 'android.arch.navigation:navigation-fragment:+'
     implementation 'android.arch.navigation:navigation-ui:+'
     implementation 'com.google.android.gms:play-services:+'
+    implementation 'com.android.support:design:+'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'

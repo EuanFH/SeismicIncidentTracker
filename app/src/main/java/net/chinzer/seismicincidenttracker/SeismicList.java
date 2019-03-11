@@ -3,6 +3,8 @@ package net.chinzer.seismicincidenttracker;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,6 +37,7 @@ public class SeismicList extends Fragment implements SwipeRefreshLayout.OnRefres
         refreshButton = view.findViewById(R.id.swiperefresh);
         refreshButton.setOnRefreshListener(this);
         recyclerView = view.findViewById(R.id.recyclerview);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -57,7 +60,7 @@ public class SeismicList extends Fragment implements SwipeRefreshLayout.OnRefres
                     public void onItemClick(SeismicIncident seismicIncident) {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("seismicIncident", seismicIncident);
-                        Navigation.findNavController(view).navigate(R.id.action_home_to_seismicItem, bundle);
+                        Navigation.findNavController(view).navigate(R.id.action_seismic_incidents_to_seismicItem, bundle);
                     }
                 });
             }
@@ -75,6 +78,12 @@ public class SeismicList extends Fragment implements SwipeRefreshLayout.OnRefres
         //new Thread(new Task(urlSource)).start();
         new Thread(new Task()).start();
     } //
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.search, menu);
+        super.onCreateOptionsMenu(menu, menuInflater);
+    }
 
     // Need separate thread to access the internet resource over network
     // Other neater solutions should be adopted in later iterations.
