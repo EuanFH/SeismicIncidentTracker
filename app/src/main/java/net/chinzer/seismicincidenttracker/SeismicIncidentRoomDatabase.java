@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public abstract class SeismicIncidentRoomDatabase extends RoomDatabase {
 
             List<SeismicIncident> test = dao.getDateSpecificSeismicIncidents(OffsetDateTime.of(2019, 3, 9, 0,0,0,0, ZoneOffset.UTC));
             List<SeismicIncident> test2 = dao.getDateRangeSpecificSeismicIncidents(OffsetDateTime.of(2019, 2, 1, 0,0,0,0, ZoneOffset.UTC), OffsetDateTime.of(2019, 2, 5, 0,0,0,0, ZoneOffset.UTC));
-            List<SeismicIncident> test3 = dao.getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime.of(2019, 2, 1, 1,0,0,0, ZoneOffset.UTC), OffsetDateTime.of(2019, 2, 1, 4,0,0,0, ZoneOffset.UTC));
+            List<SeismicIncident> test3 = dao.getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime.of(2019, 2, 1, 1,0,0,0, ZoneOffset.UTC), OffsetTime.of(0, 0,0,0, ZoneOffset.UTC), OffsetTime.of(3, 0,0,0, ZoneOffset.UTC));
 
             return null;
         }

@@ -11,7 +11,7 @@ import androidx.room.TypeConverters;
 import java.time.OffsetDateTime;
 
 @Entity(tableName = "seismic_incidents", primaryKeys = {"dateTime", "latitude", "longitude"})
-@TypeConverters({DateTypeConverters.class})
+@TypeConverters({DateTimeTypeConverters.class})
 public class SeismicIncident implements Parcelable {
     @NonNull
     private OffsetDateTime dateTime;
@@ -146,7 +146,7 @@ public class SeismicIncident implements Parcelable {
 
     //parcel magic
     protected SeismicIncident(Parcel in) {
-        dateTime = DateTypeConverters.fromDateTimetoOffset(in.readString());
+        dateTime = DateTimeTypeConverters.fromDateTimetoOffset(in.readString());
         depth = in.readInt();
         magnitude = in.readDouble();
         severity = in.readString();
@@ -158,7 +158,7 @@ public class SeismicIncident implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(DateTypeConverters.fromOffsettoDatetime(dateTime));
+        dest.writeString(DateTimeTypeConverters.fromOffsettoDatetime(dateTime));
         dest.writeInt(depth);
         dest.writeDouble(magnitude);
         dest.writeString(severity);

@@ -12,7 +12,7 @@ import androidx.room.Query;
 import androidx.room.TypeConverters;
 
 @Dao
-@TypeConverters({DateTypeConverters.class})
+@TypeConverters({DateTimeTypeConverters.class})
 public interface SeismicIncidentDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(SeismicIncident seismicIncident);
@@ -26,9 +26,14 @@ public interface SeismicIncidentDAO {
     @Query("SELECT * FROM seismic_incidents WHERE date(dateTime) BETWEEN date(:startDateOfIncidents) AND date(:endDateOfIncidents) ORDER BY dateTime DESC")
     List<SeismicIncident> getDateRangeSpecificSeismicIncidents(OffsetDateTime startDateOfIncidents, OffsetDateTime endDateOfIncidents);
 
-    @Query("SELECT * FROM seismic_incidents WHERE dateTime BETWEEN :startDateTimeOfIncidents AND :endDateTimeOfIncidents ORDER BY dateTime DESC")
-    List<SeismicIncident> getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime startDateTimeOfIncidents, OffsetDateTime endDateTimeOfIncidents);
+    //old
+    //@Query("SELECT * FROM seismic_incidents WHERE dateTime BETWEEN :startDateTimeOfIncidents AND :endDateTimeOfIncidents ORDER BY dateTime DESC")
+    //List<SeismicIncident> getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime startDateTimeOfIncidents, OffsetDateTime endDateTimeOfIncidents);
 
+    @Query("SELECT * FROM seismic_incidents WHERE date(dateTime) = date(:dateOfIncidents) AND time(dateTime) BETWEEN :startTimeOfIncidents AND :endTimeOfIncidents ORDER BY dateTime DESC")
+    List<SeismicIncident> getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime dateOfIncidents, OffsetTime startTimeOfIncidents, OffsetTime endTimeOfIncidents);
+
+    //untested
     //@Query("SELECT * FROM seismic_incidents WHERE date(dateTime) BETWEEN :startDateOfIncidents AND :endDateOfIncidents AND time(dateTime) BETWEEN :startTimeOfIncidents AND :endTimeOfIncidents  ORDER BY dateTime DESC")
     //List<SeismicIncident> getDateRangeTimeRangeSpecificSeismicIncidents(OffsetDateTime startDateOfIncidents, OffsetDateTime endDateOfIncidents, OffsetTime startTimeOfIncidents, OffsetTime endTimeOfIncidents);
 
