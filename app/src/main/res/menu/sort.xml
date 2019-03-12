@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sort_by"
+        android:title="Sort By">
+
+        <menu>
+            <item
+                android:id="@+id/date_time"
+                android:title="Date &amp; Time" />
+            <item
+                android:id="@+id/depth"
+                android:title="Depth" />
+            <item
+                android:id="@+id/magnitude"
+                android:title="Magnitude" />
+            <item
+                android:id="@+id/severity"
+                android:title="Severity" />
+            <item
+                android:id="@+id/locality"
+                android:title="Locality" />
+        </menu>
+
+    </item>
+    <item
+        android:id="@+id/ascending"
+        android:title="Ascending" />
+    <item
+        android:id="@+id/descending"
+        android:title="Descending" />
+</menu>

@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class SeismicList extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SeismicList extends FragmentSortSearchActionBar implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout refreshButton;
     private RecyclerView recyclerView;
@@ -78,12 +78,6 @@ public class SeismicList extends Fragment implements SwipeRefreshLayout.OnRefres
         //new Thread(new Task(urlSource)).start();
         new Thread(new Task()).start();
     } //
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.search, menu);
-        super.onCreateOptionsMenu(menu, menuInflater);
-    }
 
     // Need separate thread to access the internet resource over network
     // Other neater solutions should be adopted in later iterations.
