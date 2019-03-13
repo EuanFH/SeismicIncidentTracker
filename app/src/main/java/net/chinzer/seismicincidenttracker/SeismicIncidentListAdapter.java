@@ -116,4 +116,5 @@ public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicInci
     public void setOnItemClickListener(OnItemClickListener listener){
         this.listener = listener;
     }
+
 }

@@ -3,15 +3,12 @@ package net.chinzer.seismicincidenttracker;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -25,14 +22,10 @@ public class SeismicList extends FragmentSortSearchActionBar implements SwipeRef
     private RecyclerView recyclerView;
     private SeismicIncidentViewModel seismicIncidentViewModel;
 
-    //this might be bad idn
-    private View view;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.seismic_list, container, false);
+        View view = inflater.inflate(R.layout.seismic_list, container, false);
         // Inflate the layout for this fragment
         refreshButton = view.findViewById(R.id.swiperefresh);
         refreshButton.setOnRefreshListener(this);
@@ -50,7 +43,7 @@ public class SeismicList extends FragmentSortSearchActionBar implements SwipeRef
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        seismicIncidentViewModel.getAllSeismicIncidents().observe(getViewLifecycleOwner(), new Observer<List<SeismicIncident>>() {
+        seismicIncidentViewModel.getSeismicIncidents().observe(getViewLifecycleOwner(), new Observer<List<SeismicIncident>>() {
             @Override
             public void onChanged(@Nullable final List<SeismicIncident> seismicIncidents) {
                 // Update the cached copy of the words in the adapter.
@@ -60,7 +53,7 @@ public class SeismicList extends FragmentSortSearchActionBar implements SwipeRef
                     public void onItemClick(SeismicIncident seismicIncident) {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("seismicIncident", seismicIncident);
-                        Navigation.findNavController(view).navigate(R.id.action_seismic_incidents_to_seismicItem, bundle);
+                        Navigation.findNavController(getView()).navigate(R.id.action_seismic_incidents_to_seismicItem, bundle);
                     }
                 });
             }

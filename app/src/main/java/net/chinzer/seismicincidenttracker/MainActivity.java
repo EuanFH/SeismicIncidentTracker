@@ -14,7 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity
 {
     private SeismicIncidentViewModel seismicIncidentViewModel;
-    private Toolbar navigationBar;
     private NavController navigationController;
     private BottomNavigationView navigationView;
 

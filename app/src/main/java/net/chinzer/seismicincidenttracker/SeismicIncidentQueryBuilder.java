@@ -1,43 +1,102 @@
 package net.chinzer.seismicincidenttracker;
 
+import android.widget.PopupMenu;
+
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.room.util.StringUtil;
 import androidx.sqlite.db.SupportSQLiteProgram;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
 public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
 
     private final String select = "SELECT * FROM seismic_incidents";
-    private String where = "";
-    private String orderby = "";
+    private List<String> where = new ArrayList<String>();
+    private String orderBy = "";
     private String query = "";
+    private List<String> bindArgsWorking = new ArrayList<String>();
     private Object[] bindArgs;
 
-    public enum Column{
-        DATETIME("dateTime"),
-        DEPTH("depth"),
-        MAGNITUDE("magnitude"),
-        SEVERITY("severity"),
-        LOCALITY("locality"),
-        LATITUDE("latitude"),
-        LONGITUDE("longitude"),
-        LINK("link");
-
-        private String columnName;
-
-        Column(String columnName) {
-            this.columnName = columnName;
+    public SeismicIncidentQueryBuilder whereLocality(String locality){
+        if (locality != null) {
+            addWhereStatment(String.format("%s LIKE ?", SeismicIncidentColumnName.LOCALITY.getColumnName()), locality);
         }
-
-        public String getColumnName() {
-            return columnName;
-        }
+        return this;
     }
 
-    public SeismicIncidentQueryBuilder where(){
+    public SeismicIncidentQueryBuilder whereDay(OffsetDateTime dateTimeStart, OffsetDateTime dateTimeEnd){
+        if(dateTimeStart != null){
+            if(dateTimeEnd == null){
+                addWhereStatment(String.format("date(%s) = date(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), dateTimeStart);
+            }
+            else{
+                addWhereStatment(String.format("date(%s) BETWEEN date(?) AND date(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), dateTimeStart, dateTimeEnd);
+            }
+        }
 
         return this;
     }
 
-    public SeismicIncidentQueryBuilder orderBy(Column column, boolean ascending){
+    public SeismicIncidentQueryBuilder whereTime(OffsetTime timeStart, OffsetTime timeEnd){
+        if(timeStart != null){
+            if(timeEnd == null){
+                //making like but should probably have a conditional for precision
+                addWhereStatment(String.format("time(%s) LIKE time(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart);
+            }
+            else{
+                addWhereStatment(String.format("time(%s) BETWEEN time(?) AND time(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart, timeEnd);
+            }
+        }
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereMagnitude(Double magnitudeStart, Double magnitudeEnd){
+        if(magnitudeStart != null){
+            if(magnitudeEnd == null){
+                //making like but should probably have a conditional for precision
+                addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), magnitudeStart);
+            }
+            else{
+                addWhereStatment(String.format("%s BETWEEN ? AND ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), magnitudeStart, magnitudeEnd);
+            }
+        }
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereDepth(Integer depthStart, Integer depthEnd){
+        if(depthStart != null){
+            if(depthEnd == null){
+                //making like but should probably have a conditional for precision
+                addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), depthStart);
+            }
+            else{
+                addWhereStatment(String.format("%s BETWEEN ? AND ?", SeismicIncidentColumnName.DEPTH.getColumnName()), depthStart, depthEnd);
+            }
+        }
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereLocation(double latitude, double longitude, int radius){
+        //this require complex maths
+        //mysql query example
+        //SELECT id, ( 3959 * acos( cos( radians(37) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(-122) ) + sin( radians(37) ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;
+        //contains maths functions that are not in sqlite
+        //should use this method that store most of the results in the database on creation of item
+        //https://github.com/sozialhelden/wheelmap-android/wiki/Sqlite,-Distance-calculations
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereSeverity(String severity){
+        if(severity != null){
+            addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.SEVERITY.getColumnName()), severity);
+        }
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder orderBy(SeismicIncidentColumnName column, boolean ascending){
         String ascendingDescending;
         if (column != null){
             if (ascending) {
@@ -46,13 +105,70 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
             else{
                 ascendingDescending = "DESC";
             }
-            orderby = "ORDER BY " + column.getColumnName() + " " + ascendingDescending;
+            orderBy = String.format("ORDER BY %s %s", column.getColumnName(), ascendingDescending);
         }
         return this;
     }
 
-    public void compile(){
+    public boolean addWhereStatment(String whereQuery, Object... inputVaribles){
+        int numberOfInputVaribles = inputVaribles.length;
+        int numberOfInputVariblesInQuery = whereQuery.length() - whereQuery.replace("?", "").length();
+        if(numberOfInputVaribles != numberOfInputVariblesInQuery){
+            return false;
+        }
+        List<String> inputVariblesConverted = new ArrayList<>();
+        for (Object inputVarible : inputVaribles) {
+            String inputVaribleString = "";
+            if(inputVarible instanceof String){
+                inputVaribleString = (String)inputVarible;
+            }
+            else if (inputVarible instanceof Double){
+                inputVaribleString = String.valueOf((Double)inputVarible);
+            }
+            else if (inputVarible instanceof Integer){
+                inputVaribleString = String.valueOf((Integer)inputVarible);
+            }
+            else if (inputVarible instanceof OffsetDateTime){
+                inputVaribleString = DateTimeTypeConverters.fromOffsettoDatetime((OffsetDateTime)inputVarible);
+            }
+            else if (inputVarible instanceof OffsetTime){
+                inputVaribleString = DateTimeTypeConverters.fromOffsettoTime((OffsetTime) inputVarible);
+            }
+            else{
+                return false;
+            }
+            inputVariblesConverted.add(inputVaribleString);
+        }
+        where.add(whereQuery);
+        for(String inputVaribleConverted : inputVariblesConverted){
+            bindArgsWorking.add(inputVaribleConverted);
+        }
+        return true;
 
+    }
+
+    public SeismicIncidentQueryBuilder compile(){
+        String whereCompiled = compileWhere();
+        query = String.format("%s %s %s", select, whereCompiled, orderBy);
+        bindArgs = new Object[bindArgsWorking.size()];
+        bindArgsWorking.toArray(bindArgs);
+        return this;
+    }
+
+    private String compileWhere(){
+        String whereCopiled = "";
+        boolean firstItem = true;
+        for(String statment : where){
+            if(firstItem == true){
+                whereCopiled = String.format("WHERE %s", statment);
+                firstItem = false;
+            }
+            else {
+                whereCopiled = String.format("%s AND %s", whereCopiled, statment);
+
+            }
+        }
+        return whereCopiled;
     }
 
     //taken from SimpleSQLiteQuery android library class

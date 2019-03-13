@@ -77,7 +77,7 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
     }
 
     public void multipleSeismicIncidentMap(){
-        seismicIncidentViewModel.getAllSeismicIncidents().observe(getViewLifecycleOwner(), new Observer<List<SeismicIncident>>() {
+        seismicIncidentViewModel.getSeismicIncidents().observe(getViewLifecycleOwner(), new Observer<List<SeismicIncident>>() {
             @Override
             public void onChanged(@Nullable final List<SeismicIncident> seismicIncidents) {
                 // Update the cached copy of the words in the adapter.

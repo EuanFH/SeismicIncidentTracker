@@ -22,9 +22,9 @@ public interface SeismicIncidentDAO {
     void insert(SeismicIncident seismicIncident);
 
     //@Query("SELECT * FROM seismic_incidents ORDER BY dateTime DESC")
-    //LiveData<List<SeismicIncident>> getAllSeismicIncidents();
+    //LiveData<List<SeismicIncident>> getSeismicIncidents();
     @RawQuery (observedEntities = SeismicIncident.class)
-    LiveData<List<SeismicIncident>> getAllSeismicIncidents(SupportSQLiteQuery sortQuery);
+    LiveData<List<SeismicIncident>> seismicIncidentsQuery(SupportSQLiteQuery query);
 
     @Query("SELECT * FROM seismic_incidents WHERE date(dateTime) = date(:dateOfIncidents) ORDER BY dateTime DESC")
     List<SeismicIncident> getDateSpecificSeismicIncidents(OffsetDateTime dateOfIncidents);
