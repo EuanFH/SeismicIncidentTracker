@@ -5,10 +5,12 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="#f5f5f6"
+    android:orientation="vertical"
+    android:padding="4dp">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/locality_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -25,40 +27,45 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/locality_label">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/startDate"
         android:layout_width="140dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="Start Date"
         android:inputType="date"
         app:layout_constraintEnd_toStartOf="@+id/textView7"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintStart_toStartOf="@+id/date_label"
+        app:layout_constraintTop_toBottomOf="@+id/date_label" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/endDate"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:datePickerMode="calendar"
         android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="End Date"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/date_label" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -74,54 +81,242 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="To"
-        app:layout_constraintBottom_toBottomOf="@+id/editText4"
-        app:layout_constraintEnd_toStartOf="@+id/editText4"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toTopOf="@+id/editText" />
+        app:layout_constraintBottom_toBottomOf="@+id/endDate"
+        app:layout_constraintEnd_toStartOf="@+id/endDate"
+        app:layout_constraintStart_toEndOf="@+id/startDate"
+        app:layout_constraintTop_toTopOf="@+id/startDate" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/time_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Time"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@+id/startDate"
+        app:layout_constraintTop_toBottomOf="@+id/startDate" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/startTime"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="Start Time"
         android:inputType="time"
-        app:layout_constraintEnd_toStartOf="@+id/textView9"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintStart_toStartOf="@+id/time_label"
+        app:layout_constraintTop_toBottomOf="@+id/time_label" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="To"
-        app:layout_constraintBottom_toBottomOf="@+id/editText8"
-        app:layout_constraintTop_toTopOf="@+id/editText6"
-        tools:layout_editor_absoluteX="198dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/endTime"
+        app:layout_constraintEnd_toStartOf="@+id/endTime"
+        app:layout_constraintStart_toEndOf="@+id/startTime"
+        app:layout_constraintTop_toTopOf="@+id/startTime" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/endTime"
         android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="End Time"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="@+id/endDate"
+        app:layout_constraintTop_toBottomOf="@+id/time_label" />
+
+    <EditText
+        android:id="@+id/startMagnitude"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@+id/magnitude_label"
+        app:layout_constraintTop_toBottomOf="@+id/magnitude_label" />
+
+    <TextView
+        android:id="@+id/magnitude_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Magnitude"
+        app:layout_constraintStart_toStartOf="@+id/startTime"
+        app:layout_constraintTop_toBottomOf="@+id/startTime" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="To"
+        app:layout_constraintBottom_toBottomOf="@+id/endMagnitude"
+        app:layout_constraintEnd_toStartOf="@+id/endMagnitude"
+        app:layout_constraintStart_toEndOf="@+id/startMagnitude"
+        app:layout_constraintTop_toTopOf="@+id/startMagnitude" />
+
+    <EditText
+        android:id="@+id/endMagnitude"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/endTime"
+        app:layout_constraintTop_toBottomOf="@+id/magnitude_label" />
+
+    <EditText
+        android:id="@+id/startDepth"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="@+id/depth_label"
+        app:layout_constraintTop_toBottomOf="@+id/depth_label" />
+
+    <EditText
+        android:id="@+id/endDepth"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/endMagnitude"
+        app:layout_constraintTop_toBottomOf="@+id/depth_label" />
+
+    <TextView
+        android:id="@+id/depth_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Depth"
+        app:layout_constraintStart_toStartOf="@+id/startMagnitude"
+        app:layout_constraintTop_toBottomOf="@+id/startMagnitude" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="To"
+        app:layout_constraintBottom_toBottomOf="@+id/endDepth"
+        app:layout_constraintEnd_toStartOf="@+id/endDepth"
+        app:layout_constraintStart_toEndOf="@+id/startDepth"
+        app:layout_constraintTop_toTopOf="@+id/startDepth" />
+
+    <Button
+        android:id="@+id/search_button"
+        style="@style/AppTheme.RoundedCornerMaterialButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/longitude" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:entries="@array/severity"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="@+id/endDepth"
+        app:layout_constraintStart_toStartOf="@+id/severity_label"
+        app:layout_constraintTop_toBottomOf="@+id/severity_label" />
+
+    <TextView
+        android:id="@+id/severity_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Severity"
+        app:layout_constraintStart_toStartOf="@+id/startDepth"
+        app:layout_constraintTop_toBottomOf="@+id/startDepth" />
+
+    <TextView
+        android:id="@+id/distance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Distance"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="From"
+        app:layout_constraintBottom_toBottomOf="@+id/latitude"
+        app:layout_constraintEnd_toStartOf="@+id/latitude"
+        app:layout_constraintStart_toEndOf="@+id/Distance"
+        app:layout_constraintTop_toTopOf="@+id/Distance" />
+
+    <EditText
+        android:id="@+id/Distance"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="@+id/distance_label"
+        app:layout_constraintTop_toBottomOf="@+id/distance_label" />
+
+    <EditText
+        android:id="@+id/latitude"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="time"
-        app:layout_constraintEnd_toEndOf="@+id/editText4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        android:hint="Lat"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@+id/endDepth"
+        app:layout_constraintTop_toBottomOf="@+id/distance_label" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text=","
+        app:layout_constraintBottom_toBottomOf="@+id/latitude"
+        app:layout_constraintStart_toEndOf="@+id/latitude" />
+
+    <EditText
+        android:id="@+id/longitude"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Lng"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/distance_label" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

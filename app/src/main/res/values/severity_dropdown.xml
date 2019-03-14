@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="severity">
+        <item>Not Specified</item>
+        <item>Micro</item>
+        <item>Minor</item>
+        <item>Light</item>
+        <item>Moderate</item>
+        <item>Strong</item>
+        <item>Major</item>
+        <item>Great</item>
+    </string-array>
+</resources>
