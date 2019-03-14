@@ -1,13 +1,9 @@
 package net.chinzer.seismicincidenttracker;
 
-import android.widget.PopupMenu;
-
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.room.util.StringUtil;
 import androidx.sqlite.db.SupportSQLiteProgram;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
