@@ -17,6 +17,7 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
     private boolean currentAscending = false;
     private int currentSortColumnItem = R.id.date_time;
     private SeismicIncidentColumnName currentSortColumn = SeismicIncidentColumnName.DATETIME;
+    private SeismicIncidentsSearch currentSearch = null;
 
     public SeismicIncidentViewModel(Application application){
         super(application);
@@ -30,11 +31,16 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
         return seismicIncidents;
     }
 
-    public void sortSeismicIncidents(SeismicIncidentColumnName column, boolean ascending){
-        swapLiveData(repository.sortSeismicIncidents(column, ascending));
+    public void sortSeismicIncidents(){
+        if(currentSearch !=  null){
+            swapLiveData(repository.searchSeismicIncidents(currentSearch, currentSortColumn, currentAscending));
+        } else{
+            swapLiveData(repository.sortSeismicIncidents(currentSortColumn, currentAscending));
+        }
     }
 
     public void searchSeismicIncidents(SeismicIncidentsSearch newSearch){
+        currentSearch = newSearch;
         swapLiveData(repository.searchSeismicIncidents(newSearch, currentSortColumn, currentAscending));
     }
 
@@ -65,6 +71,14 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
 
     public void setCurrentSortColumn(SeismicIncidentColumnName currentSortColumn) {
         this.currentSortColumn = currentSortColumn;
+    }
+
+    public SeismicIncidentsSearch getCurrentSearch() {
+        return currentSearch;
+    }
+
+    public void setCurrentSearch(SeismicIncidentsSearch currentSearch) {
+        this.currentSearch = currentSearch;
     }
 
     private void swapLiveData(LiveData<List<SeismicIncident>> newSeismicIncidents){

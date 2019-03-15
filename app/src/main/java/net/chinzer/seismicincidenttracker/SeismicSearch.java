@@ -31,9 +31,6 @@ public class SeismicSearch extends Fragment {
     private EditText startDepth;
     private EditText endDepth;
     private Spinner severity;
-    private EditText distance;
-    private EditText latitude;
-    private EditText longitude;
     private Button  searchButton;
 
 
@@ -51,10 +48,6 @@ public class SeismicSearch extends Fragment {
         startDepth = v.findViewById(R.id.startDepth);
         endDepth = v.findViewById(R.id.endDepth);
         severity = v.findViewById(R.id.severity);
-        distance = v.findViewById(R.id.distance);
-        latitude = v.findViewById(R.id.latitude);
-        longitude = v.findViewById(R.id.longitude);
-
 
         searchButton = v.findViewById(R.id.search_button);
 
@@ -62,6 +55,7 @@ public class SeismicSearch extends Fragment {
         addDateDialog(endDate);
         addTimeDialog(startTime);
         addTimeDialog(endTime);
+
         searchButton.setOnClickListener(searchOnClickListener());
         return v;
     }
@@ -70,6 +64,29 @@ public class SeismicSearch extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         seismicIncidentViewModel = ViewModelProviders.of(getActivity()).get(SeismicIncidentViewModel.class);
+        SeismicIncidentsSearch currentSearch = seismicIncidentViewModel.getCurrentSearch();
+        if(currentSearch != null){
+            locality.setText(currentSearch.getLocality());
+            startDate.setText(currentSearch.getStartDateString());
+            endDate.setText(currentSearch.getEndDateString());
+            startTime.setText(currentSearch.getStartTimeString());
+            endTime.setText(currentSearch.getEndTimeString());
+            startMagnitude.setText(currentSearch.getStartMagnitudeString());
+            endMagnitude.setText(currentSearch.getEndMagnitudeString());
+            startDepth.setText(currentSearch.getStartDepthString());
+            endDepth.setText(currentSearch.getEndDepthString());
+
+            String severityValue = currentSearch.getSeverity();
+            String[] severityStringArray = getResources().getStringArray(R.array.severity);
+            int severityPostion = 0;
+            for(int i = 0; i < severityStringArray.length; i++)
+            {
+                if(severityStringArray[i].equals(severityValue)){
+                    severityPostion = i;
+                }
+            }
+            severity.setSelection(severityPostion);
+        }
     }
 
     private void addDateDialog(EditText dateField){
@@ -123,10 +140,7 @@ public class SeismicSearch extends Fragment {
                         endMagnitude.getText().toString(),
                         startDepth.getText().toString(),
                         endDepth.getText().toString(),
-                        severity.getSelectedItem().toString(),
-                        latitude.getText().toString(),
-                        longitude.getText().toString(),
-                        distance.getText().toString()
+                        severity.getSelectedItem().toString()
                 ));
                 Navigation.findNavController(v).navigate(R.id.action_seismicSearch_to_seismic_incidents);
             }

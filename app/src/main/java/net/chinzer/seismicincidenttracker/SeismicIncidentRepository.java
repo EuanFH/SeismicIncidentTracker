@@ -74,9 +74,6 @@ public class SeismicIncidentRepository {
            query = query.whereSeverity(search.getSeverity());
        }
 
-       if(search.getDistance() != null & search.getLatitude() != null & search.getLongitude() != null){
-           query = query.whereInRadias(search.getLatitude(), search.getLongitude(), search.getDistance());
-       }
        return seismicIncidentDAO.seismicIncidentsQuery(query.orderBy(column, ascending).compile());
    }
 

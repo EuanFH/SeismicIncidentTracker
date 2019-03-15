@@ -33,11 +33,19 @@ public class DateTimeTypeConverters {
         return time.format(timeFormatter);
     }
 
-    public static OffsetDateTime fromUserInputTimeToOffsetDateTime(String text){
+    public static OffsetDateTime fromUserInputDateToOffsetDateTime(String text){
         return OffsetDateTime.parse(text, userInputDateTimeFormatter);
+    }
+
+    public static String fromOffsetDateTimeToUserInputDate(OffsetDateTime date){
+        return date.format(userInputDateTimeFormatter);
     }
 
     public static OffsetTime fromUserInputTimeToOffsetTime(String text){
         return OffsetTime.parse(text, userInputTimeFormatter);
     }
+    public static String fromOffsetTimeToUserInputTime(OffsetTime time){
+        return time.format(userInputTimeFormatter);
+    }
+
 }

@@ -96,7 +96,7 @@ public abstract class FragmentSortSearchActionBar extends Fragment {
                                 seismicIncidentViewModel.setCurrentSortColumnItem(item.getItemId());
                                 break;
                         }
-                        seismicIncidentViewModel.sortSeismicIncidents(seismicIncidentViewModel.getCurrentSortColumn(), seismicIncidentViewModel.isCurrentAscending());
+                        seismicIncidentViewModel.sortSeismicIncidents();
                         return true;
                     }
                 });

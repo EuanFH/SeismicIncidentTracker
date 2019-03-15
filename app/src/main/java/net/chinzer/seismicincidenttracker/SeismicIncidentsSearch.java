@@ -14,11 +14,8 @@ public class SeismicIncidentsSearch {
     private Integer startDepth;
     private Integer endDepth;
     private String severity;
-    private Double latitude;
-    private Double longitude;
-    private Integer distance;
 
-    public SeismicIncidentsSearch(String locality, OffsetDateTime startDate, OffsetDateTime endDate, OffsetTime startTime, OffsetTime endTime, Double startMagnitude, Double endMagnitude, Integer startDepth, Integer endDepth, String severity, Double latitude, Double longitude, Integer distance) {
+    public SeismicIncidentsSearch(String locality, OffsetDateTime startDate, OffsetDateTime endDate, OffsetTime startTime, OffsetTime endTime, Double startMagnitude, Double endMagnitude, Integer startDepth, Integer endDepth, String severity) {
         this.locality = locality;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -29,12 +26,9 @@ public class SeismicIncidentsSearch {
         this.startDepth = startDepth;
         this.endDepth = endDepth;
         this.severity = severity;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.distance = distance;
     }
 
-    public SeismicIncidentsSearch(String locality, String startDate, String endDate, String startTime, String endTime, String startMagnitude, String endMagnitude, String startDepth, String endDepth, String severity, String latitude, String longitude, String distance) {
+    public SeismicIncidentsSearch(String locality, String startDate, String endDate, String startTime, String endTime, String startMagnitude, String endMagnitude, String startDepth, String endDepth, String severity) {
         this.locality = locality;
         setStartDate(startDate);
         setEndDate(endDate);
@@ -45,9 +39,6 @@ public class SeismicIncidentsSearch {
         setStartDepth(startDepth);
         setEndDepth(endDepth);
         setSeverity(severity);
-        setLatitude(latitude);
-        setLongitude(longitude);
-        setDistance(distance);
     }
 
     public String getLocality() {
@@ -61,6 +52,12 @@ public class SeismicIncidentsSearch {
     public OffsetDateTime getStartDate() {
         return startDate;
     }
+    public String getStartDateString() {
+        if(startDate == null){
+            return "";
+        }
+        return DateTimeTypeConverters.fromOffsetDateTimeToUserInputDate(startDate);
+    }
 
     public void setStartDate(OffsetDateTime startDate) {
         this.startDate = startDate;
@@ -68,7 +65,7 @@ public class SeismicIncidentsSearch {
 
     public void setStartDate(String startDate) {
         if(!startDate.isEmpty()){
-            this.startDate = DateTimeTypeConverters.fromUserInputTimeToOffsetDateTime(startDate);
+            this.startDate = DateTimeTypeConverters.fromUserInputDateToOffsetDateTime(startDate);
         }
         else {
             this.startDate = null;
@@ -79,13 +76,21 @@ public class SeismicIncidentsSearch {
         return endDate;
     }
 
+    public String getEndDateString() {
+        if(endDate == null){
+            return "";
+        }
+        return DateTimeTypeConverters.fromOffsetDateTimeToUserInputDate(endDate);
+    }
+
+
     public void setEndDate(OffsetDateTime endDate) {
         this.endDate = endDate;
     }
 
     public void setEndDate(String endDate) {
         if(!endDate.isEmpty()){
-            this.endDate = DateTimeTypeConverters.fromUserInputTimeToOffsetDateTime(endDate);
+            this.endDate = DateTimeTypeConverters.fromUserInputDateToOffsetDateTime(endDate);
         }
         else{
             this.endDate = null;
@@ -95,6 +100,14 @@ public class SeismicIncidentsSearch {
     public OffsetTime getStartTime() {
         return startTime;
     }
+
+    public String getStartTimeString() {
+        if(startTime == null){
+            return "";
+        }
+        return DateTimeTypeConverters.fromOffsetTimeToUserInputTime(startTime);
+    }
+
 
     public void setStartTime(OffsetTime startTime) {
         this.startTime = startTime;
@@ -113,6 +126,14 @@ public class SeismicIncidentsSearch {
         return endTime;
     }
 
+    public String getEndTimeString() {
+        if(endTime == null){
+            return "";
+        }
+        return DateTimeTypeConverters.fromOffsetTimeToUserInputTime(endTime);
+    }
+
+
     public void setEndTime(OffsetTime endTime) {
         this.endTime = endTime;
     }
@@ -130,6 +151,13 @@ public class SeismicIncidentsSearch {
         return startMagnitude;
     }
 
+    public String getStartMagnitudeString() {
+        if(endMagnitude == null){
+            return "";
+        }
+        return String.valueOf(startMagnitude);
+    }
+
     public void setStartMagnitude(Double startMagnitude) {
         this.startMagnitude = startMagnitude;
     }
@@ -142,6 +170,14 @@ public class SeismicIncidentsSearch {
         return endMagnitude;
     }
 
+    public String getEndMagnitudeString() {
+        if(endMagnitude == null){
+            return "";
+        }
+        return String.valueOf(endMagnitude);
+    }
+
+
     public void setEndMagnitude(Double endMagnitude) {
         this.endMagnitude = endMagnitude;
     }
@@ -153,6 +189,13 @@ public class SeismicIncidentsSearch {
     public Integer getStartDepth() {
         return startDepth;
     }
+    public String getStartDepthString() {
+        if(startDepth == null){
+            return "";
+        }
+        return String.valueOf(startDepth);
+    }
+
 
     public void setStartDepth(Integer startDepth) {
         this.startDepth = startDepth;
@@ -165,6 +208,13 @@ public class SeismicIncidentsSearch {
     public Integer getEndDepth() {
         return endDepth;
     }
+    public String getEndDepthString() {
+        if(endDepth == null){
+            return "";
+        }
+        return String.valueOf(endDepth);
+    }
+
 
     public void setEndDepth(Integer endDepth) {
         this.endDepth = endDepth;
@@ -182,43 +232,6 @@ public class SeismicIncidentsSearch {
         if(!severity.equals("Not Specified"))
         this.severity = severity;
     }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = getDoubleFromString(latitude);
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = getDoubleFromString(longitude);
-    }
-
-    public Integer getDistance() {
-        return distance;
-    }
-
-    public void setDistance(Integer distance) {
-        this.distance = distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = getIntegerFromString(distance);
-    }
-
 
     private Double getDoubleFromString(String text){
         try{

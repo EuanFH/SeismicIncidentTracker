@@ -18,7 +18,7 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
 
     public SeismicIncidentQueryBuilder whereLocality(String locality){
         if (locality != null) {
-            addWhereStatment(String.format("%s LIKE ?", SeismicIncidentColumnName.LOCALITY.getColumnName()), locality);
+            addWhereStatment(String.format("%s LIKE ?", SeismicIncidentColumnName.LOCALITY.getColumnName()), "%" + locality + "%");
         }
         return this;
     }
@@ -79,16 +79,6 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
         if(depthStart != null & depthEnd != null){
             addWhereStatment(String.format("%s BETWEEN ? AND ?", SeismicIncidentColumnName.DEPTH.getColumnName()), depthStart, depthEnd);
         }
-        return this;
-    }
-
-    public SeismicIncidentQueryBuilder whereInRadias(double latitude, double longitude, int radius){
-        //this require complex maths
-        //mysql query example
-        //SELECT id, ( 3959 * acos( cos( radians(37) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(-122) ) + sin( radians(37) ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;
-        //contains maths functions that are not in sqlite
-        //should use this method that store most of the results in the database on creation of item
-        //https://github.com/sozialhelden/wheelmap-android/wiki/Sqlite,-Distance-calculations
         return this;
     }
 
@@ -168,7 +158,6 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
             }
             else {
                 whereCopiled = String.format("%s AND %s", whereCopiled, statment);
-
             }
         }
         return whereCopiled;
