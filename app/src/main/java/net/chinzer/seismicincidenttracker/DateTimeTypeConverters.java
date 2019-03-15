@@ -9,6 +9,8 @@ import androidx.room.TypeConverter;
 public class DateTimeTypeConverters {
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     private static DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_OFFSET_TIME;
+    private static DateTimeFormatter userInputDateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static DateTimeFormatter userInputTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
 
     @TypeConverter
@@ -29,5 +31,13 @@ public class DateTimeTypeConverters {
     @TypeConverter
     public static String fromOffsettoTime(OffsetTime time){
         return time.format(timeFormatter);
+    }
+
+    public static OffsetDateTime fromUserInputTimeToOffsetDateTime(String text){
+        return OffsetDateTime.parse(text, userInputDateTimeFormatter);
+    }
+
+    public static OffsetTime fromUserInputTimeToOffsetTime(String text){
+        return OffsetTime.parse(text, userInputTimeFormatter);
     }
 }

@@ -23,59 +23,66 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
         return this;
     }
 
-    public SeismicIncidentQueryBuilder whereDay(OffsetDateTime dateTimeStart, OffsetDateTime dateTimeEnd){
+    public SeismicIncidentQueryBuilder whereDay(OffsetDateTime dateTimeStart){
         if(dateTimeStart != null){
-            if(dateTimeEnd == null){
-                addWhereStatment(String.format("date(%s) = date(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), dateTimeStart);
-            }
-            else{
-                addWhereStatment(String.format("date(%s) BETWEEN date(?) AND date(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), dateTimeStart, dateTimeEnd);
-            }
+            addWhereStatment(String.format("date(%s) = date(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), dateTimeStart);
         }
 
         return this;
     }
 
-    public SeismicIncidentQueryBuilder whereTime(OffsetTime timeStart, OffsetTime timeEnd){
+    public SeismicIncidentQueryBuilder whereDay(OffsetDateTime dateTimeStart, OffsetDateTime dateTimeEnd){
+        if(dateTimeStart != null & dateTimeEnd != null){
+            addWhereStatment(String.format("date(%s) BETWEEN date(?) AND date(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), dateTimeStart, dateTimeEnd);
+        }
+
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereTime(OffsetTime timeStart){
         if(timeStart != null){
-            if(timeEnd == null){
-                //making like but should probably have a conditional for precision
-                addWhereStatment(String.format("time(%s) LIKE time(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart);
-            }
-            else{
-                addWhereStatment(String.format("time(%s) BETWEEN time(?) AND time(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart, timeEnd);
-            }
+            addWhereStatment(String.format("time(%s) LIKE time(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart);
+        }
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereTime(OffsetTime timeStart, OffsetTime timeEnd){
+        if(timeStart != null & timeEnd != null){
+            addWhereStatment(String.format("time(%s) BETWEEN time(?) AND time(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart, timeEnd);
+        }
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereMagnitude(Double magnitudeStart){
+        if(magnitudeStart != null){
+            //making like but should probably have a conditional for precision
+            addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), magnitudeStart);
         }
         return this;
     }
 
     public SeismicIncidentQueryBuilder whereMagnitude(Double magnitudeStart, Double magnitudeEnd){
-        if(magnitudeStart != null){
-            if(magnitudeEnd == null){
-                //making like but should probably have a conditional for precision
-                addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), magnitudeStart);
-            }
-            else{
-                addWhereStatment(String.format("%s BETWEEN ? AND ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), magnitudeStart, magnitudeEnd);
-            }
+        if(magnitudeStart != null & magnitudeEnd != null){
+            addWhereStatment(String.format("%s BETWEEN ? AND ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), magnitudeStart, magnitudeEnd);
+        }
+        return this;
+    }
+
+    public SeismicIncidentQueryBuilder whereDepth(Integer depthStart){
+        if(depthStart != null){
+            addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), depthStart);
         }
         return this;
     }
 
     public SeismicIncidentQueryBuilder whereDepth(Integer depthStart, Integer depthEnd){
-        if(depthStart != null){
-            if(depthEnd == null){
-                //making like but should probably have a conditional for precision
-                addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), depthStart);
-            }
-            else{
-                addWhereStatment(String.format("%s BETWEEN ? AND ?", SeismicIncidentColumnName.DEPTH.getColumnName()), depthStart, depthEnd);
-            }
+        if(depthStart != null & depthEnd != null){
+            addWhereStatment(String.format("%s BETWEEN ? AND ?", SeismicIncidentColumnName.DEPTH.getColumnName()), depthStart, depthEnd);
         }
         return this;
     }
 
-    public SeismicIncidentQueryBuilder whereLocation(double latitude, double longitude, int radius){
+    public SeismicIncidentQueryBuilder whereInRadias(double latitude, double longitude, int radius){
         //this require complex maths
         //mysql query example
         //SELECT id, ( 3959 * acos( cos( radians(37) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(-122) ) + sin( radians(37) ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;

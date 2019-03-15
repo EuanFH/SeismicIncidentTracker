@@ -14,6 +14,10 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
     private LiveData<List<SeismicIncident>> currentSeismicIncidents;
     private final MediatorLiveData<List<SeismicIncident>> seismicIncidents;
 
+    private boolean currentAscending = false;
+    private int currentSortColumnItem = R.id.date_time;
+    private SeismicIncidentColumnName currentSortColumn = SeismicIncidentColumnName.DATETIME;
+
     public SeismicIncidentViewModel(Application application){
         super(application);
         seismicIncidents = new MediatorLiveData<>();
@@ -30,13 +34,37 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
         swapLiveData(repository.sortSeismicIncidents(column, ascending));
     }
 
-    public void testSearchSeismicIncidents(SeismicIncidentColumnName column, boolean ascending){
-        swapLiveData(repository.testSearchSeismicIncidents(column, ascending));
+    public void searchSeismicIncidents(SeismicIncidentsSearch newSearch){
+        swapLiveData(repository.searchSeismicIncidents(newSearch, currentSortColumn, currentAscending));
     }
 
     public void insert(SeismicIncident seismicIncident) {
 
         repository.insert(seismicIncident);
+    }
+
+    public boolean isCurrentAscending() {
+        return currentAscending;
+    }
+
+    public void setCurrentAscending(boolean currentAscending) {
+        this.currentAscending = currentAscending;
+    }
+
+    public int getCurrentSortColumnItem() {
+        return currentSortColumnItem;
+    }
+
+    public void setCurrentSortColumnItem(int currentSortColumnItem) {
+        this.currentSortColumnItem = currentSortColumnItem;
+    }
+
+    public SeismicIncidentColumnName getCurrentSortColumn() {
+        return currentSortColumn;
+    }
+
+    public void setCurrentSortColumn(SeismicIncidentColumnName currentSortColumn) {
+        this.currentSortColumn = currentSortColumn;
     }
 
     private void swapLiveData(LiveData<List<SeismicIncident>> newSeismicIncidents){

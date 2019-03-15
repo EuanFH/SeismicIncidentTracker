@@ -11,6 +11,13 @@
         <action
             android:id="@+id/action_seismic_incidents_to_seismicItem"
             app:destination="@id/seismicItem" />
+        <action
+            android:id="@+id/action_seismic_incidents_to_seismicSearch"
+            app:destination="@id/seismicSearch"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/map"
@@ -25,5 +32,14 @@
         <argument
             android:name="seismicIncident"
             app:argType="net.chinzer.seismicincidenttracker.SeismicIncident" />
+    </fragment>
+    <fragment
+        android:id="@+id/seismicSearch"
+        android:name="net.chinzer.seismicincidenttracker.SeismicSearch"
+        android:label="Search"
+        tools:layout="@layout/seismic_search">
+        <action
+            android:id="@+id/action_seismicSearch_to_seismic_incidents"
+            app:destination="@id/seismic_incidents" />
     </fragment>
 </navigation>
