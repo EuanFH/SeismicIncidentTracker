@@ -122,10 +122,10 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
                 inputVaribleString = (String)inputVarible;
             }
             else if (inputVarible instanceof Double){
-                inputVaribleString = String.valueOf((Double)inputVarible);
+                inputVaribleString = String.valueOf(inputVarible);
             }
             else if (inputVarible instanceof Integer){
-                inputVaribleString = String.valueOf((Integer)inputVarible);
+                inputVaribleString = String.valueOf(inputVarible);
             }
             else if (inputVarible instanceof OffsetDateTime){
                 inputVaribleString = DateTimeTypeConverters.fromOffsettoDatetime((OffsetDateTime)inputVarible);

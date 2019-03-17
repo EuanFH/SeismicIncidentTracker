@@ -91,14 +91,14 @@ public class Rss {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss xxxx");
         OffsetDateTime dateTime = OffsetDateTime.parse(rawSeismicIncident.get(0) + " +0000",  formatter);
-        String[] rawLocality = rawSeismicIncident.get(1).split(",");
-        String locality = "";
-        if (rawLocality.length > 1) {
+        //String[] rawLocality = rawSeismicIncident.get(1).split(",");
+        String locality = capitalizeWords(rawSeismicIncident.get(1).toLowerCase());
+        /*if (rawLocality.length > 1) {
             locality = rawLocality[0].substring(0, 1) + rawLocality[0].substring(1).toLowerCase() + ", " + rawLocality[1].substring(0, 1) + rawLocality[1].substring(1).toLowerCase();
         }
         else{
             locality = rawLocality[0].substring(0, 1) + rawLocality[0].substring(1).toLowerCase();
-        }
+        }*/
         String[]latLong = rawSeismicIncident.get(2).split(",");
         double latitude = Double.parseDouble(latLong[0]);
         double longitude = Double.parseDouble(latLong[1]);
@@ -107,4 +107,18 @@ public class Rss {
         return new SeismicIncident(dateTime, depth, magnitude, locality, latitude, longitude, link);
     }
 
+    public static String capitalizeWords(String str){
+        String[] words = str.split("\\s");
+        String capitalizeWords="";
+        for(String w:words){
+            String first = w.substring(0,1);
+            String afterfirst = w.substring(1);
+            capitalizeWords += String.format("%s%s %s", first.toUpperCase(), afterfirst, " ");
+        }
+        words = capitalizeWords.trim().split(",");
+        if (words.length > 1) {
+            capitalizeWords = words[0].substring(0, 1).toUpperCase() + words[0].substring(1) + ", " + words[1].substring(0, 1).toUpperCase() + words[1].substring(1);
+        }
+        return capitalizeWords.trim();
+    }
 }

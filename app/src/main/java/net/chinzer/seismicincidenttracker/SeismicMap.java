@@ -69,17 +69,17 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
         LatLngBounds unitedkingdom = new LatLngBounds(new LatLng(48.0, -12.0), new LatLng(59.0, 4.0));
         map.setLatLngBoundsForCameraTarget(unitedkingdom);
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(unitedkingdom, 20));
-        SeismicIncidentGoogleMapsInfoWindow infoWindow = new SeismicIncidentGoogleMapsInfoWindow(getContext());
-        googleMap.setInfoWindowAdapter(infoWindow);
-        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("seismicIncident", (SeismicIncident)marker.getTag());
-                Navigation.findNavController(getView()).navigate(R.id.action_map_to_seismicItem, bundle);
-            }
-        });
         if (seismicIncident == null){
+            SeismicIncidentGoogleMapsInfoWindow infoWindow = new SeismicIncidentGoogleMapsInfoWindow(getContext());
+            googleMap.setInfoWindowAdapter(infoWindow);
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("seismicIncident", (SeismicIncident)marker.getTag());
+                    Navigation.findNavController(getView()).navigate(R.id.action_map_to_seismicItem, bundle);
+                }
+            });
             multipleSeismicIncidentMap();
 
         } else {
@@ -106,7 +106,7 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
 
     public void specificSeismicIncidentMap(){
         LatLng latlng = new LatLng(seismicIncident.getLatitude(), seismicIncident.getLongitude());
-        map.addMarker(new MarkerOptions().position(latlng).title(seismicIncident.getLocality()));
+        map.addMarker(new MarkerOptions().position(latlng));
         moveToCurrentLocation(latlng);
     }
 
