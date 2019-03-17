@@ -9,12 +9,18 @@ import androidx.sqlite.db.SupportSQLiteQuery;
 
 public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
 
-    private final String select = "SELECT * FROM seismic_incidents";
+    private String select = "SELECT * FROM seismic_incidents";
     private List<String> where = new ArrayList<String>();
     private String orderBy = "";
     private String query = "";
+    private String limit = "";
     private List<String> bindArgsWorking = new ArrayList<String>();
     private Object[] bindArgs;
+
+    public SeismicIncidentQueryBuilder limit(int numberOfRows){
+        limit = String.format("LIMIT %s", numberOfRows);
+        return this;
+    }
 
     public SeismicIncidentQueryBuilder whereLocality(String locality){
         if (locality != null) {
@@ -142,7 +148,7 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
 
     public SeismicIncidentQueryBuilder compile(){
         String whereCompiled = compileWhere();
-        query = String.format("%s %s %s", select, whereCompiled, orderBy);
+        query = String.format("%s %s %s %s", select, whereCompiled, orderBy, limit);
         bindArgs = new Object[bindArgsWorking.size()];
         bindArgsWorking.toArray(bindArgs);
         return this;

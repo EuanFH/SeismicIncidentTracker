@@ -9,8 +9,14 @@
         app:showAsAction="always" />
 
     <item android:id="@+id/search_button"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="search"
+    android:icon="@drawable/ic_search_black_24dp"
+    android:title="search"
+    android:orderInCategory="100"
+    app:showAsAction="always" />
+
+    <item android:id="@+id/clear_button"
+        android:icon="@drawable/ic_clear_black_24dp"
+        android:title="clear search"
         android:orderInCategory="100"
         app:showAsAction="always" />
 

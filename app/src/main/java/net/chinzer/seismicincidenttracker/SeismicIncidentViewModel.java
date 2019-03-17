@@ -3,6 +3,7 @@ package net.chinzer.seismicincidenttracker;
 import android.app.Application;
 
 import java.util.List;
+import java.util.Map;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -39,9 +40,18 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
         }
     }
 
+    public Map<String, SeismicIncident> getInformationSeismicIncidents(){
+        return repository.getInformation(this.currentSearch);
+    }
+
     public void searchSeismicIncidents(SeismicIncidentsSearch newSearch){
         currentSearch = newSearch;
         swapLiveData(repository.searchSeismicIncidents(newSearch, currentSortColumn, currentAscending));
+    }
+
+    public void resetSeismicIncidents(){
+        currentSearch = null;
+        sortSeismicIncidents();
     }
 
     public void insert(SeismicIncident seismicIncident) {

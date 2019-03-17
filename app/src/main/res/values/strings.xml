@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Seismic Incident Tracker</string>
+    <string name="empty_results_nosearch">Welcome To The Seismic Incidents App\n\nTo start drag your finger down the screen to refresh</string>
+    <string name="empty_results_search">No Results</string>
 </resources>

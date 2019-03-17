@@ -1,17 +1,10 @@
 package net.chinzer.seismicincidenttracker;
 
-import android.animation.ObjectAnimator;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.TimePicker;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -25,12 +18,21 @@ public abstract class FragmentSortSearchActionBar extends Fragment {
         menuInflater.inflate(R.menu.search_sort_actionbar, menu);
         seismicIncidentViewModel = ViewModelProviders.of(getActivity()).get(SeismicIncidentViewModel.class);
         super.onCreateOptionsMenu(menu, menuInflater);
+        if(seismicIncidentViewModel.getCurrentSearch() == null){
+            MenuItem clear_button = menu.findItem(R.id.clear_button);
+            clear_button.setVisible(false);
+        }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId())
         {
+            case R.id.clear_button:
+                seismicIncidentViewModel.resetSeismicIncidents();
+                item.setVisible(false);
+                return true;
 
             case R.id.search_button:
                 Navigation.findNavController(getView()).navigate(R.id.action_seismic_incidents_to_seismicSearch);

@@ -178,7 +178,7 @@
 
     <EditText
         android:id="@+id/startDepth"
-        android:layout_width="140dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -188,12 +188,13 @@
 
     <EditText
         android:id="@+id/endDepth"
-        android:layout_width="140dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="@+id/endMagnitude"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/depth_label" />
 
     <TextView
@@ -209,14 +210,12 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="To"
         app:layout_constraintBottom_toBottomOf="@+id/endDepth"
-        app:layout_constraintEnd_toStartOf="@+id/endDepth"
-        app:layout_constraintStart_toEndOf="@+id/startDepth"
+        app:layout_constraintEnd_toEndOf="@+id/textView11"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/startDepth" />
 
     <Button
@@ -251,5 +250,26 @@
         android:text="Severity"
         app:layout_constraintStart_toStartOf="@+id/startDepth"
         app:layout_constraintTop_toBottomOf="@+id/startDepth" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="km"
+        app:layout_constraintBottom_toBottomOf="@+id/startDepth"
+        app:layout_constraintEnd_toStartOf="@+id/textView13"
+        app:layout_constraintStart_toEndOf="@+id/startDepth" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="km"
+        app:layout_constraintBottom_toBottomOf="@+id/endDepth"
+        app:layout_constraintEnd_toEndOf="@+id/endMagnitude"
+        app:layout_constraintStart_toEndOf="@+id/endDepth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

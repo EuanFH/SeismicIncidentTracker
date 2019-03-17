@@ -21,27 +21,11 @@ public interface SeismicIncidentDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(SeismicIncident seismicIncident);
 
-    //@Query("SELECT * FROM seismic_incidents ORDER BY dateTime DESC")
-    //LiveData<List<SeismicIncident>> getSeismicIncidents();
     @RawQuery (observedEntities = SeismicIncident.class)
     LiveData<List<SeismicIncident>> seismicIncidentsQuery(SupportSQLiteQuery query);
 
-    @Query("SELECT * FROM seismic_incidents WHERE date(dateTime) = date(:dateOfIncidents) ORDER BY dateTime DESC")
-    List<SeismicIncident> getDateSpecificSeismicIncidents(OffsetDateTime dateOfIncidents);
-
-    @Query("SELECT * FROM seismic_incidents WHERE date(dateTime) BETWEEN date(:startDateOfIncidents) AND date(:endDateOfIncidents) ORDER BY dateTime DESC")
-    List<SeismicIncident> getDateRangeSpecificSeismicIncidents(OffsetDateTime startDateOfIncidents, OffsetDateTime endDateOfIncidents);
-
-    //old
-    //@Query("SELECT * FROM seismic_incidents WHERE dateTime BETWEEN :startDateTimeOfIncidents AND :endDateTimeOfIncidents ORDER BY dateTime DESC")
-    //List<SeismicIncident> getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime startDateTimeOfIncidents, OffsetDateTime endDateTimeOfIncidents);
-
-    @Query("SELECT * FROM seismic_incidents WHERE date(dateTime) = date(:dateOfIncidents) AND time(dateTime) BETWEEN :startTimeOfIncidents AND :endTimeOfIncidents ORDER BY dateTime DESC")
-    List<SeismicIncident> getDateTimeRangeSpecificSeismicIncidents(OffsetDateTime dateOfIncidents, OffsetTime startTimeOfIncidents, OffsetTime endTimeOfIncidents);
-
-    //untested
-    //@Query("SELECT * FROM seismic_incidents WHERE date(dateTime) BETWEEN :startDateOfIncidents AND :endDateOfIncidents AND time(dateTime) BETWEEN :startTimeOfIncidents AND :endTimeOfIncidents  ORDER BY dateTime DESC")
-    //List<SeismicIncident> getDateRangeTimeRangeSpecificSeismicIncidents(OffsetDateTime startDateOfIncidents, OffsetDateTime endDateOfIncidents, OffsetTime startTimeOfIncidents, OffsetTime endTimeOfIncidents);
+    @RawQuery (observedEntities = SeismicIncident.class)
+    SeismicIncident seismicIncidentsQueryOneValue(SupportSQLiteQuery query);
 
     @Query("DELETE FROM seismic_incidents")
     void deleteAll();

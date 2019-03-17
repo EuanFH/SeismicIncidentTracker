@@ -12,6 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 public class SeismicMap extends Fragment implements OnMapReadyCallback {
 
@@ -67,6 +69,16 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
         LatLngBounds unitedkingdom = new LatLngBounds(new LatLng(48.0, -12.0), new LatLng(59.0, 4.0));
         map.setLatLngBoundsForCameraTarget(unitedkingdom);
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(unitedkingdom, 20));
+        SeismicIncidentGoogleMapsInfoWindow infoWindow = new SeismicIncidentGoogleMapsInfoWindow(getContext());
+        googleMap.setInfoWindowAdapter(infoWindow);
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("seismicIncident", (SeismicIncident)marker.getTag());
+                Navigation.findNavController(getView()).navigate(R.id.action_map_to_seismicItem, bundle);
+            }
+        });
         if (seismicIncident == null){
             multipleSeismicIncidentMap();
 
@@ -83,8 +95,10 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
                 // Update the cached copy of the words in the adapter.
                 for (SeismicIncident seismicIncident : seismicIncidents){
                     LatLng latlng = new LatLng(seismicIncident.getLatitude(), seismicIncident.getLongitude());
-                    map.addMarker(new MarkerOptions().position(latlng)
-                            .title(seismicIncident.getLocality()));
+
+                    SeismicIncidentGoogleMapsInfoWindow infoWindow = new SeismicIncidentGoogleMapsInfoWindow(getContext());
+                    Marker marker = map.addMarker(new MarkerOptions().position(latlng));
+                    marker.setTag(seismicIncident);
                 }
             }
         });

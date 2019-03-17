@@ -6,20 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Map;
 
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicIncidentListAdapter.SeismicIncidentViewHolder>{
+public class SeismicIncidentInformationAdapter extends RecyclerView.Adapter<SeismicIncidentInformationAdapter.SeismicIncidentViewHolder>{
 
     private final LayoutInflater inflater;
-    private List<SeismicIncident> seismicIncidents;
+    private Map<String, SeismicIncident> seismicIncidentInformation;
     private OnItemClickListener listener;
 
     class SeismicIncidentViewHolder extends RecyclerView.ViewHolder {
+        private final TextView header;
         private final TextView locality;
         private final TextView date;
         private final TextView time;
@@ -30,6 +30,7 @@ public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicInci
 
         public SeismicIncidentViewHolder(View itemView) {
             super(itemView);
+            header = itemView.findViewById(R.id.header);
             locality = itemView.findViewById(R.id.locality);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
@@ -41,27 +42,30 @@ public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicInci
                 @Override
                 public void onClick(View v){
                     if(listener != null && getAdapterPosition() != RecyclerView.NO_POSITION){
-                        listener.onItemClick(seismicIncidents.get(getAdapterPosition()));
+                        Object seismicIncidentInfromationItemKey = seismicIncidentInformation.keySet().toArray()[getAdapterPosition()];
+                        listener.onItemClick(seismicIncidentInformation.get(seismicIncidentInfromationItemKey));
                     }
                 }
             });
         }
     }
 
-    SeismicIncidentListAdapter(Context context) { inflater = LayoutInflater.from(context); }
+    SeismicIncidentInformationAdapter(Context context) { inflater = LayoutInflater.from(context); }
 
     @Override
     public SeismicIncidentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.recyclerview_item, parent, false);
+        View itemView = inflater.inflate(R.layout.recyclerview_item_with_heading, parent, false);
         return new SeismicIncidentViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(SeismicIncidentViewHolder holder, int position) {
-        if (seismicIncidents != null) {
+        if (seismicIncidentInformation != null) {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            SeismicIncident current = seismicIncidents.get(position);
+            Object seismicIncidentInfromationItemKey = seismicIncidentInformation.keySet().toArray()[position];
+            SeismicIncident current = seismicIncidentInformation.get(seismicIncidentInfromationItemKey);
+            holder.header.setText(seismicIncidentInfromationItemKey.toString());
             holder.locality.setText(current.getLocality());
             holder.date.setText(current.getDateTime().format(dateFormatter));
             holder.time.setText(current.getDateTime().format(timeFormatter));
@@ -95,16 +99,16 @@ public class SeismicIncidentListAdapter extends RecyclerView.Adapter<SeismicInci
         }
     }
 
-    void setSeismicIncidents(List<SeismicIncident> seismicIncidents){
-        this.seismicIncidents = seismicIncidents;
+    void setSeismicIncidents(Map<String, SeismicIncident> seismicIncidentInfromation){
+        this.seismicIncidentInformation = seismicIncidentInfromation;
         notifyDataSetChanged();
     }
 
 
     @Override
     public int getItemCount() {
-        if (seismicIncidents != null)
-            return seismicIncidents.size();
+        if (seismicIncidentInformation != null)
+            return seismicIncidentInformation.size();
         else return 0;
     }
 
