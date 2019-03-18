@@ -74,20 +74,22 @@ public class SeismicInformation extends Fragment {
                     recyclerView.setVisibility(View.VISIBLE);
                     emptyResultsMessage.setVisibility(View.GONE);
                 }
-                new LoadAdapterWithSeismicInfromation(adapter, seismicIncidentViewModel).execute();
+                new LoadAdapterWithSeismicInfromation(adapter, seismicIncidentViewModel, getView()).execute();
 
             }
         });
     }
 
-    private class LoadAdapterWithSeismicInfromation extends AsyncTask<Void, Void, Map<String, SeismicIncident>> {
+    private static class LoadAdapterWithSeismicInfromation extends AsyncTask<Void, Void, Map<String, SeismicIncident>> {
 
         SeismicIncidentInformationAdapter adapter;
         SeismicIncidentViewModel seismicIncidentViewModel;
+        View view;
 
-        public LoadAdapterWithSeismicInfromation(SeismicIncidentInformationAdapter adapter, SeismicIncidentViewModel seismicIncidentViewModel){
+        public LoadAdapterWithSeismicInfromation(SeismicIncidentInformationAdapter adapter, SeismicIncidentViewModel seismicIncidentViewModel, View view){
             this.adapter = adapter;
             this.seismicIncidentViewModel = seismicIncidentViewModel;
+            this.view = view;
         }
 
         @Override
@@ -103,7 +105,7 @@ public class SeismicInformation extends Fragment {
                 public void onItemClick(SeismicIncident seismicIncident) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("seismicIncident", seismicIncident);
-                    Navigation.findNavController(getView()).navigate(R.id.action_information_to_seismicItem, bundle);
+                    Navigation.findNavController(view).navigate(R.id.action_information_to_seismicItem, bundle);
                 }
             });
         }

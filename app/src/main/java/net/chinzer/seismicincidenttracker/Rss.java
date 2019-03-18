@@ -91,14 +91,7 @@ public class Rss {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss xxxx");
         OffsetDateTime dateTime = OffsetDateTime.parse(rawSeismicIncident.get(0) + " +0000",  formatter);
-        //String[] rawLocality = rawSeismicIncident.get(1).split(",");
         String locality = capitalizeWords(rawSeismicIncident.get(1).toLowerCase());
-        /*if (rawLocality.length > 1) {
-            locality = rawLocality[0].substring(0, 1) + rawLocality[0].substring(1).toLowerCase() + ", " + rawLocality[1].substring(0, 1) + rawLocality[1].substring(1).toLowerCase();
-        }
-        else{
-            locality = rawLocality[0].substring(0, 1) + rawLocality[0].substring(1).toLowerCase();
-        }*/
         String[]latLong = rawSeismicIncident.get(2).split(",");
         double latitude = Double.parseDouble(latLong[0]);
         double longitude = Double.parseDouble(latLong[1]);

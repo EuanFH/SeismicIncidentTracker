@@ -41,8 +41,8 @@ public class SeismicIncidentRepository {
 
        informationSeismicIncidents.put("Northerly", getMaxMinOfColumn(SeismicIncidentColumnName.LATITUDE, false, search));
        informationSeismicIncidents.put("Southerly", getMaxMinOfColumn(SeismicIncidentColumnName.LATITUDE, true, search));
-       informationSeismicIncidents.put("Westerly", getMaxMinOfColumn(SeismicIncidentColumnName.LONGITUDE, false, search));
-       informationSeismicIncidents.put("Easterly", getMaxMinOfColumn(SeismicIncidentColumnName.LONGITUDE, true, search));
+       informationSeismicIncidents.put("Easterly", getMaxMinOfColumn(SeismicIncidentColumnName.LONGITUDE, false, search));
+       informationSeismicIncidents.put("Westerly", getMaxMinOfColumn(SeismicIncidentColumnName.LONGITUDE, true, search));
        informationSeismicIncidents.put("Largest", getMaxMinOfColumn(SeismicIncidentColumnName.MAGNITUDE, false, search));
        informationSeismicIncidents.put("Smallest", getMaxMinOfColumn(SeismicIncidentColumnName.MAGNITUDE, true, search));
        informationSeismicIncidents.put("Deepest", getMaxMinOfColumn(SeismicIncidentColumnName.DEPTH, false, search));
