@@ -48,4 +48,8 @@ public class DateTimeTypeConverters {
         return time.format(userInputTimeFormatter);
     }
 
+    public static String fromOffsetTimeToUserInputTime(OffsetDateTime time){
+        return time.format(userInputTimeFormatter);
+    }
+
 }

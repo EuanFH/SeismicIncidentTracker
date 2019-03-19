@@ -4,13 +4,19 @@ import android.app.Application;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 public class SeismicIncidentViewModel extends AndroidViewModel {
     private SeismicIncidentRepository repository;
+    private WorkManager workManager;
 
     private LiveData<List<SeismicIncident>> currentSeismicIncidents;
     private final MediatorLiveData<List<SeismicIncident>> seismicIncidents;
@@ -22,6 +28,7 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
 
     public SeismicIncidentViewModel(Application application){
         super(application);
+        workManager = WorkManager.getInstance();
         seismicIncidents = new MediatorLiveData<>();
         repository = new SeismicIncidentRepository(application);
         swapLiveData(repository.getSeismicIncidents());
@@ -89,6 +96,12 @@ public class SeismicIncidentViewModel extends AndroidViewModel {
 
     public void setCurrentSearch(SeismicIncidentsSearch currentSearch) {
         this.currentSearch = currentSearch;
+    }
+
+    public LiveData<WorkInfo> refreshFromRss(){
+        WorkRequest request = new OneTimeWorkRequest.Builder(SeismicIncidentUpdateRefreshWorker.class).build();
+        workManager.enqueue(request);
+        return workManager.getWorkInfoByIdLiveData(request.getId());
     }
 
     private void swapLiveData(LiveData<List<SeismicIncident>> newSeismicIncidents){

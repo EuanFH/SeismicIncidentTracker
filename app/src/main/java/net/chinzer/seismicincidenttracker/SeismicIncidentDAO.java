@@ -21,6 +21,9 @@ public interface SeismicIncidentDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(SeismicIncident seismicIncident);
 
+    @Query("SELECT * FROM seismic_incidents WHERE dateTime = :dateTime AND latitude = :latitude AND longitude = :longitude LIMIT 1")
+    SeismicIncident getSeismicIncident(OffsetDateTime dateTime, double latitude, double longitude);
+
     @RawQuery (observedEntities = SeismicIncident.class)
     LiveData<List<SeismicIncident>> seismicIncidentsQuery(SupportSQLiteQuery query);
 

@@ -8,16 +8,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.WorkInfo;
 
 public class SeismicList extends FragmentSortSearchActionBar implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -88,35 +92,22 @@ public class SeismicList extends FragmentSortSearchActionBar implements SwipeRef
 
     @Override
     public void onRefresh() {
-        startProgress();
-    }
-
-    public void startProgress()
-    {
-        // Run network access on a separate thread;
-        //new Thread(new Task(urlSource)).start();
-        new Thread(new Task()).start();
-    } //
-
-    // Need separate thread to access the internet resource over network
-    // Other neater solutions should be adopted in later iterations.
-    private class Task implements Runnable
-    {
-        @Override
-        public void run()
-        {
-            try{
-                for (SeismicIncident seismicIncident : Rss.seismicIncidents()){
-                    seismicIncidentViewModel.insert(seismicIncident);
+        seismicIncidentViewModel.refreshFromRss().observe(this, new Observer<WorkInfo>() {
+            @Override
+            public void onChanged(@Nullable WorkInfo workInfo) {
+                if(workInfo != null){
+                    if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                        refreshButton.setRefreshing(false);
+                    }
+                    if(workInfo.getState() == WorkInfo.State.FAILED){
+                        refreshButton.setRefreshing(false);
+                        Snackbar snackbar = Snackbar.make(getView(), "Failed To Retrieve Seismic Incidents",Snackbar.LENGTH_SHORT);
+                        View snackBarView = snackbar.getView();
+                        snackBarView.setBackgroundColor(getResources().getColor(R.color.colorAccent, null));
+                        snackbar.show();
+                    }
                 }
             }
-            catch(Exception e){
-                Log.e("MyTag", e.getMessage());
-                e.printStackTrace();
-            }
-            refreshButton.setRefreshing(false);
-        }
-
+        });
     }
-
 }

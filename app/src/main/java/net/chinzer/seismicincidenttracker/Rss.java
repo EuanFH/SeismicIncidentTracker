@@ -26,6 +26,8 @@ public class Rss {
         URLConnection yc;
         url = new URL(urlSource);
         yc = url.openConnection();
+        yc.setConnectTimeout(5000);
+        yc.setReadTimeout(10000);
         return yc.getInputStream();
     }
 

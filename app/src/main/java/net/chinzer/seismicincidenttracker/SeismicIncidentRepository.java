@@ -22,6 +22,10 @@ public class SeismicIncidentRepository {
        seismicIncidentDAO = db.seismicIncidentDAO();
    }
 
+   public SeismicIncident getSeismicIncident(OffsetDateTime dateTime, double latitude, double longitude){
+       return seismicIncidentDAO.getSeismicIncident(dateTime, latitude, longitude);
+   }
+
    public LiveData<List<SeismicIncident>> getSeismicIncidents() {
        return sortSeismicIncidents(SeismicIncidentColumnName.DATETIME, false);
    }
