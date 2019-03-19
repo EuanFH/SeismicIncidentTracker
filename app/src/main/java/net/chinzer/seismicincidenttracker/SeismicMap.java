@@ -1,5 +1,11 @@
 package net.chinzer.seismicincidenttracker;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +16,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -17,7 +25,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -94,10 +107,34 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
             public void onChanged(@Nullable final List<SeismicIncident> seismicIncidents) {
                 // Update the cached copy of the words in the adapter.
                 for (SeismicIncident seismicIncident : seismicIncidents){
-                    LatLng latlng = new LatLng(seismicIncident.getLatitude(), seismicIncident.getLongitude());
+                    int markerVector = 0;
+                    switch(seismicIncident.getSeverity()){
+                        case("Micro"):
+                            markerVector = R.drawable.ic_mapmarker_micro;
+                            break;
+                        case("Minor"):
+                            markerVector = R.drawable.ic_mapmarker_minor;
+                            break;
+                        case("Light"):
+                            markerVector = R.drawable.ic_mapmarker_light;
+                            break;
+                        case("Moderate"):
+                            markerVector = R.drawable.ic_mapmarker_moderate;
+                            break;
+                        case("Strong"):
+                            markerVector = R.drawable.ic_mapmarker_strong;
+                            break;
+                        case("Major"):
+                            markerVector = R.drawable.ic_mapmarker_major_great;
+                            break;
+                        case("Great"):
+                            markerVector = R.drawable.ic_mapmarker_major_great;
+                            break;
+                    }
 
+                    LatLng latlng = new LatLng(seismicIncident.getLatitude(), seismicIncident.getLongitude());
                     SeismicIncidentGoogleMapsInfoWindow infoWindow = new SeismicIncidentGoogleMapsInfoWindow(getContext());
-                    Marker marker = map.addMarker(new MarkerOptions().position(latlng));
+                    Marker marker = map.addMarker(new MarkerOptions().position(latlng).icon(bitmapDescriptorFromVector(getContext(), markerVector)));
                     marker.setTag(seismicIncident);
                 }
             }
@@ -115,5 +152,14 @@ public class SeismicMap extends Fragment implements OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
         map.animateCamera(CameraUpdateFactory.zoomIn());
         map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes  int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
