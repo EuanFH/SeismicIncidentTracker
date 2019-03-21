@@ -1,4 +1,6 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Model;
+
+import net.chinzer.seismicincidenttracker.Converters.DateTimeTypeConverters;
 
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;

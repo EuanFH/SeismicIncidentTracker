@@ -5,7 +5,7 @@
     app:startDestination="@id/seismic_incidents">
     <fragment
         android:id="@+id/seismic_incidents"
-        android:name="net.chinzer.seismicincidenttracker.SeismicList"
+        android:name="net.chinzer.seismicincidenttracker.Fragments.SeismicList"
         android:label="Seismic Incidents" >
         <action
             android:id="@+id/action_seismic_incidents_to_seismicItem"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/map"
-        android:name="net.chinzer.seismicincidenttracker.SeismicMap"
+        android:name="net.chinzer.seismicincidenttracker.Fragments.SeismicMap"
         android:label="Map"
         tools:layout="@layout/seismic_map" >
         <action
@@ -29,16 +29,16 @@
     </fragment>
     <fragment
         android:id="@+id/seismicItem"
-        android:name="net.chinzer.seismicincidenttracker.SeismicItem"
+        android:name="net.chinzer.seismicincidenttracker.Fragments.SeismicItem"
         android:label="Item"
-        tools:layout="@layout/seismic_item" >
+        tools:layout="@layout/seismic_item">
         <argument
             android:name="seismicIncident"
-            app:argType="net.chinzer.seismicincidenttracker.SeismicIncident" />
+            app:argType="net.chinzer.seismicincidenttracker.Model.SeismicIncident" />
     </fragment>
     <fragment
         android:id="@+id/seismicSearch"
-        android:name="net.chinzer.seismicincidenttracker.SeismicSearch"
+        android:name="net.chinzer.seismicincidenttracker.Fragments.SeismicSearch"
         android:label="Search"
         tools:layout="@layout/seismic_search">
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/information"
-        android:name="net.chinzer.seismicincidenttracker.SeismicInformation"
+        android:name="net.chinzer.seismicincidenttracker.Fragments.SeismicInformation"
         android:label="Information" >
         <action
             android:id="@+id/action_information_to_seismicItem"

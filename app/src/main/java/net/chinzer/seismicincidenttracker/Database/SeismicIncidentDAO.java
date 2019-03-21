@@ -1,10 +1,10 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Database;
+
+import net.chinzer.seismicincidenttracker.Converters.DateTimeTypeConverters;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
 
 import java.time.OffsetDateTime;
-import java.time.OffsetTime;
 import java.util.List;
-
-import javax.crypto.spec.SecretKeySpec;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

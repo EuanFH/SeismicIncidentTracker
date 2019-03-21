@@ -1,31 +1,32 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.snackbar.Snackbar;
+
+import net.chinzer.seismicincidenttracker.Adapters.SeismicIncidentListAdapter;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
+import net.chinzer.seismicincidenttracker.R;
+import net.chinzer.seismicincidenttracker.ViewModels.SeismicIncidentViewModel;
 
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.WorkInfo;
 
-public class SeismicInformation extends Fragment {
+public class SeismicList extends FragmentSortSearchActionBar implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout refreshButton;
     private RecyclerView recyclerView;
@@ -37,12 +38,16 @@ public class SeismicInformation extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.seismic_information, container, false);
+        View view = inflater.inflate(R.layout.seismic_list, container, false);
         // Inflate the layout for this fragment
+        refreshButton = view.findViewById(R.id.swiperefresh);
+        refreshButton.setOnRefreshListener(this);
         recyclerView = view.findViewById(R.id.recyclerview);
         emptyResultsMessage = view.findViewById(R.id.empty_results_message);
         emptyResultsImage = view.findViewById(R.id.empty_results_message_image);
         emptyResultsText = view.findViewById(R.id.empty_results_message_text);
+
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -51,13 +56,14 @@ public class SeismicInformation extends Fragment {
         super.onActivityCreated(savedInstanceState);
         seismicIncidentViewModel = ViewModelProviders.of(getActivity()).get(SeismicIncidentViewModel.class);
 
-        final SeismicIncidentInformationAdapter adapter = new SeismicIncidentInformationAdapter(getActivity());
+        final SeismicIncidentListAdapter adapter = new SeismicIncidentListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         seismicIncidentViewModel.getSeismicIncidents().observe(getViewLifecycleOwner(), new Observer<List<SeismicIncident>>() {
             @Override
             public void onChanged(@Nullable final List<SeismicIncident> seismicIncidents) {
+                // Update the cached copy of the words in the adapter.
                 if(seismicIncidents.size() == 0){
                     if(seismicIncidentViewModel.getCurrentSearch() != null){
                         emptyResultsText.setText(getResources().getString(R.string.empty_results_search));
@@ -74,41 +80,37 @@ public class SeismicInformation extends Fragment {
                     recyclerView.setVisibility(View.VISIBLE);
                     emptyResultsMessage.setVisibility(View.GONE);
                 }
-                new LoadAdapterWithSeismicInfromation(adapter, seismicIncidentViewModel, getView()).execute();
-
+                adapter.setSeismicIncidents(seismicIncidents);
+                adapter.setOnItemClickListener(new SeismicIncidentListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(SeismicIncident seismicIncident) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("seismicIncident", seismicIncident);
+                        Navigation.findNavController(getView()).navigate(R.id.action_seismic_incidents_to_seismicItem, bundle);
+                    }
+                });
             }
         });
     }
 
-    private static class LoadAdapterWithSeismicInfromation extends AsyncTask<Void, Void, Map<String, SeismicIncident>> {
-
-        SeismicIncidentInformationAdapter adapter;
-        SeismicIncidentViewModel seismicIncidentViewModel;
-        View view;
-
-        public LoadAdapterWithSeismicInfromation(SeismicIncidentInformationAdapter adapter, SeismicIncidentViewModel seismicIncidentViewModel, View view){
-            this.adapter = adapter;
-            this.seismicIncidentViewModel = seismicIncidentViewModel;
-            this.view = view;
-        }
-
-        @Override
-        protected Map<String, SeismicIncident> doInBackground(Void... params) {
-            return seismicIncidentViewModel.getInformationSeismicIncidents();
-        }
-
-        @Override
-        protected void onPostExecute(Map<String, SeismicIncident> seismicInformation) {
-            adapter.setSeismicIncidents(seismicInformation);
-            adapter.setOnItemClickListener(new SeismicIncidentInformationAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(SeismicIncident seismicIncident) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("seismicIncident", seismicIncident);
-                    Navigation.findNavController(view).navigate(R.id.action_information_to_seismicItem, bundle);
+    @Override
+    public void onRefresh() {
+        seismicIncidentViewModel.refreshFromRss().observe(this, new Observer<WorkInfo>() {
+            @Override
+            public void onChanged(@Nullable WorkInfo workInfo) {
+                if(workInfo != null){
+                    if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                        refreshButton.setRefreshing(false);
+                    }
+                    if(workInfo.getState() == WorkInfo.State.FAILED){
+                        refreshButton.setRefreshing(false);
+                        Snackbar snackbar = Snackbar.make(getView(), "Failed To Retrieve Seismic Incidents",Snackbar.LENGTH_SHORT);
+                        View snackBarView = snackbar.getView();
+                        snackBarView.setBackgroundColor(getResources().getColor(R.color.colorAccent, null));
+                        snackbar.show();
+                    }
                 }
-            });
-        }
-
+            }
+        });
     }
 }

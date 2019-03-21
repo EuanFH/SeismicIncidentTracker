@@ -1,4 +1,4 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
+import net.chinzer.seismicincidenttracker.R;
 
 import java.time.format.DateTimeFormatter;
 

@@ -1,4 +1,6 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Database;
+
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

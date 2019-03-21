@@ -1,4 +1,4 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Converters;
 
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;

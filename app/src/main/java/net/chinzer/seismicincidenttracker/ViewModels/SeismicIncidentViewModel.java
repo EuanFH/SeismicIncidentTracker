@@ -1,10 +1,16 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.ViewModels;
 
 import android.app.Application;
 
+import net.chinzer.seismicincidenttracker.Database.SeismicIncidentRepository;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncidentColumnName;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncidentsSearch;
+import net.chinzer.seismicincidenttracker.R;
+import net.chinzer.seismicincidenttracker.Workers.SeismicIncidentUpdateRefreshWorker;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Observer;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;

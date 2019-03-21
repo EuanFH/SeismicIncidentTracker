@@ -1,7 +1,11 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Workers;
 
 import android.app.Application;
 import android.content.Context;
+
+import net.chinzer.seismicincidenttracker.Database.Rss;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
+import net.chinzer.seismicincidenttracker.Database.SeismicIncidentRepository;
 
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;

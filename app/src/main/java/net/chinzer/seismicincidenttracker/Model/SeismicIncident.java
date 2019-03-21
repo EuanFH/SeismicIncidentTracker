@@ -1,7 +1,9 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import net.chinzer.seismicincidenttracker.Converters.DateTimeTypeConverters;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

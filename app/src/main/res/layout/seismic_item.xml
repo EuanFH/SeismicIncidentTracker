@@ -64,7 +64,7 @@
 
     <fragment
         android:id="@+id/map"
-        class="net.chinzer.seismicincidenttracker.SeismicMap"
+        class="net.chinzer.seismicincidenttracker.Fragments.SeismicMap"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"

@@ -1,10 +1,8 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,14 +21,16 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import net.chinzer.seismicincidenttracker.R;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
+import net.chinzer.seismicincidenttracker.Adapters.SeismicIncidentGoogleMapsInfoWindow;
+import net.chinzer.seismicincidenttracker.ViewModels.SeismicIncidentViewModel;
+
 import java.util.List;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;

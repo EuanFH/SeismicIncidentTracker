@@ -1,25 +1,24 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.work.Data;
 import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import net.chinzer.seismicincidenttracker.R;
+import net.chinzer.seismicincidenttracker.ViewModels.SeismicIncidentViewModel;
+import net.chinzer.seismicincidenttracker.Workers.SeismicIncidentUpdateWorker;
 
 import java.util.concurrent.TimeUnit;
 

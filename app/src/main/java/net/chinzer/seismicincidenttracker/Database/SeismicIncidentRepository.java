@@ -1,17 +1,18 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Database;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncidentColumnName;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncidentsSearch;
+
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
 public class SeismicIncidentRepository {
 

@@ -1,4 +1,4 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Model;
 
 public enum SeismicIncidentColumnName {
     DATETIME("dateTime", "Date & Time"),

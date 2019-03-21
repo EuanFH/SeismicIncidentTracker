@@ -1,12 +1,9 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Database;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
-import java.util.List;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;

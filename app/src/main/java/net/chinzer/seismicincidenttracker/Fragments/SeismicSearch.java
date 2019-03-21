@@ -1,4 +1,4 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -12,6 +12,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+
+import net.chinzer.seismicincidenttracker.Model.SeismicIncidentsSearch;
+import net.chinzer.seismicincidenttracker.R;
+import net.chinzer.seismicincidenttracker.ViewModels.SeismicIncidentViewModel;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;

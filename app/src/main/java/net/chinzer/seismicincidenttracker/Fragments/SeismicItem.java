@@ -1,4 +1,4 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Fragments;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import net.chinzer.seismicincidenttracker.R;
+import net.chinzer.seismicincidenttracker.Model.SeismicIncident;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;

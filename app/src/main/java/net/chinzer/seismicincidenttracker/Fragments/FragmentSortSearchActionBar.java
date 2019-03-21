@@ -1,10 +1,14 @@
-package net.chinzer.seismicincidenttracker;
+package net.chinzer.seismicincidenttracker.Fragments;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+
+import net.chinzer.seismicincidenttracker.Model.SeismicIncidentColumnName;
+import net.chinzer.seismicincidenttracker.R;
+import net.chinzer.seismicincidenttracker.ViewModels.SeismicIncidentViewModel;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
