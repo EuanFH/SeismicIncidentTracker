@@ -26,7 +26,7 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
     }
 
     public SeismicIncidentQueryBuilder whereLocality(String locality){
-        if (locality != null) {
+        if (!locality.equals("")) {
             addWhereStatment(String.format("%s LIKE ?", SeismicIncidentColumnName.LOCALITY.getColumnName()), "%" + locality + "%");
         }
         return this;
@@ -50,7 +50,7 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
 
     public SeismicIncidentQueryBuilder whereTime(OffsetTime timeStart){
         if(timeStart != null){
-            addWhereStatment(String.format("time(%s) LIKE time(?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart);
+            addWhereStatment(String.format("strftime('%%H%%H:%%M%%M', %s) = strftime('%%H%%H:%%M%%M', ?)", SeismicIncidentColumnName.DATETIME.getColumnName()), timeStart);
         }
         return this;
     }
@@ -79,7 +79,7 @@ public class SeismicIncidentQueryBuilder implements SupportSQLiteQuery {
 
     public SeismicIncidentQueryBuilder whereDepth(Integer depthStart){
         if(depthStart != null){
-            addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.MAGNITUDE.getColumnName()), depthStart);
+            addWhereStatment(String.format("%s = ?", SeismicIncidentColumnName.DEPTH.getColumnName()), depthStart);
         }
         return this;
     }

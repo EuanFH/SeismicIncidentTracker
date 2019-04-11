@@ -102,6 +102,11 @@ public class SeismicSearch extends Fragment {
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
+                if (month == 12){
+                    month = 0;
+                }else{
+                    month++;
+                }
                 DatePickerDialog datePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         dateField.setText(String.format("%02d/%02d/%02d", selectedday, selectedmonth, selectedyear));

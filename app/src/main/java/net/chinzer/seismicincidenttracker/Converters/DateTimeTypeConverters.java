@@ -40,7 +40,7 @@ public class DateTimeTypeConverters {
 
     public static OffsetDateTime fromUserInputDateToOffsetDateTime(String text){
         LocalDate localDate = LocalDate.parse(text, userInputDateTimeFormatter);
-        ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.of("Europe/London"));
+        ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneOffset.UTC);
         return zonedDateTime.toOffsetDateTime();
     }
 
