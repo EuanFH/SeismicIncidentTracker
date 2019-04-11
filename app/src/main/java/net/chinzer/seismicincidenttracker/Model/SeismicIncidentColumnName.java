@@ -1,3 +1,8 @@
+//
+// Name                 Euan Haahr
+// Student ID           S1716375
+// Programme of Study   Bsc Computing
+//
 package net.chinzer.seismicincidenttracker.Model;
 
 public enum SeismicIncidentColumnName {
