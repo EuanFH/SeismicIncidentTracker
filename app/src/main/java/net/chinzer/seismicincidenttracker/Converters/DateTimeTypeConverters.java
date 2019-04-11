@@ -1,7 +1,12 @@
 package net.chinzer.seismicincidenttracker.Converters;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import androidx.room.TypeConverter;
@@ -34,7 +39,9 @@ public class DateTimeTypeConverters {
     }
 
     public static OffsetDateTime fromUserInputDateToOffsetDateTime(String text){
-        return OffsetDateTime.parse(text, userInputDateTimeFormatter);
+        LocalDate localDate = LocalDate.parse(text, userInputDateTimeFormatter);
+        ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.of("Europe/London"));
+        return zonedDateTime.toOffsetDateTime();
     }
 
     public static String fromOffsetDateTimeToUserInputDate(OffsetDateTime date){
@@ -42,7 +49,9 @@ public class DateTimeTypeConverters {
     }
 
     public static OffsetTime fromUserInputTimeToOffsetTime(String text){
-        return OffsetTime.parse(text, userInputTimeFormatter);
+        LocalTime localTime = LocalTime.parse(text, userInputTimeFormatter);
+
+        return OffsetTime.of(localTime, ZoneOffset.UTC);
     }
     public static String fromOffsetTimeToUserInputTime(OffsetTime time){
         return time.format(userInputTimeFormatter);
