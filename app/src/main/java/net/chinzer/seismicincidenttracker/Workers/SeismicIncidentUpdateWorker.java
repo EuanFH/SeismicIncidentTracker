@@ -53,7 +53,7 @@ public class SeismicIncidentUpdateWorker extends Worker {
                             String.format("%s\nSeverity: %s\nMagnitude: %s\n\uD83D\uDCC5%s\n\uD83D\uDD52%s",
                                     seismicIncidentNotify.getLocality(),
                                     seismicIncidentNotify.getSeverity(),
-                                    seismicIncidentNotify.getLocality(),
+                                    seismicIncidentNotify.getMagnitude(),
                                     DateTimeTypeConverters.fromOffsetDateTimeToUserInputDate(seismicIncidentNotify.getDateTime()),
                                     DateTimeTypeConverters.fromOffsetTimeToUserInputTime(seismicIncidentNotify.getDateTime())
                             )
